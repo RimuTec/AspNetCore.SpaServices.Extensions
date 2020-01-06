@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./webpack.config.js",
     "update-all": "npx -p npm-check-updates ncu -u && npm install"
   },
   "keywords": [],
