@@ -26,6 +26,13 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // BEGIN react-multi-hmr
+            services.AddSpaStaticFiles(configuration => 
+            {
+                configuration.RootPath = "ClientApp/public";
+            });
+            // END react-multi-hmr
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +45,11 @@ namespace Web
 
             app.UseHttpsRedirection();
 
+            // BEGIN react-multi-hmr
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+            // END react-multi-hmr
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -46,6 +58,13 @@ namespace Web
             {
                 endpoints.MapControllers();
             });
+
+            // BEGIN react-multi-hmr
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+            });
+            // END react-multi-hmr
         }
     }
 }
