@@ -12,5 +12,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ClientApp\src\" />
+  </ItemGroup>
+
 
 </Project>
