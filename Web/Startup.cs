@@ -23,7 +23,7 @@ namespace Web
             // BEGIN react-multi-hmr
             services.AddSpaStaticFiles(configuration => 
             {
-                configuration.RootPath = "ClientApp/public";
+                configuration.RootPath = "ClientApp/dist";
             });
             // END react-multi-hmr
         }
