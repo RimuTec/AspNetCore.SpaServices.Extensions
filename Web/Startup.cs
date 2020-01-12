@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SpaServices.Extensions.Webpack;
+using System;
 
 namespace Web
 {
@@ -56,6 +58,11 @@ namespace Web
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
+
+                if(env.IsDevelopment())
+                {
+                    spa.UseWebpackDevelopmentServer(npmScript: "start");
+                }
             });
             // END react-multi-hmr
         }
