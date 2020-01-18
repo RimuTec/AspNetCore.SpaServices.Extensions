@@ -93,8 +93,9 @@ namespace SpaServices.Extensions.Webpack
             var portNumber = TcpPortFinder.FindAvailablePort();
             logger.LogInformation($"Starting webpack-dev-server on port {portNumber}...");
 
+            // TODO: Check option "--stdin" to see if this terminates webpack-dev-server when the webapp stops. 
+            // https://webpack.js.org/configuration/dev-server/#devserverstdin---cli-only
             var arguments = $"--port {portNumber} --sockPort {socketPortNumber}";
-            //var arguments = $"--port {portNumber} --public 'localhost:{portNumber}' ";
             var envVars = new Dictionary<string, string>
             {
                 //{ "PORT", "55555" },
