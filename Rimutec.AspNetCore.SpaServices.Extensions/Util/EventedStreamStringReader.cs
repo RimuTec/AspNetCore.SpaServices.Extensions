@@ -4,7 +4,7 @@
 using System;
 using System.Text;
 
-namespace Rimutec.AspNetCore.SpaServices.Extensions
+namespace RimuTec.AspNetCore.SpaServices.Extensions
 {
     /// <summary>
     /// Captures the completed-line notifications from a <see cref="EventedStreamReader"/>,

@@ -1,4 +1,4 @@
-﻿// Copyright 2020 (c) Rimutec Ltd. All rights reserved.
+﻿// Copyright 2020 (c) RimuTec Ltd. All rights reserved.
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 //
@@ -9,7 +9,7 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices;
 
-namespace Rimutec.AspNetCore.SpaServices.WebpackDevelopmentServer
+namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 {
     /// <summary>
     /// This class is loosely based on the code base of class ReactDevelopmentServerMiddlewareExtensions

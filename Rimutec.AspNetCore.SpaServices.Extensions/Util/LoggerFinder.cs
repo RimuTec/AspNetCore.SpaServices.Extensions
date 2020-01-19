@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Rimutec.AspNetCore.SpaServices.Extensions
+namespace RimuTec.AspNetCore.SpaServices.Extensions
 {
     internal static class LoggerFinder
     {

@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Rimutec.AspNetCore.SpaServices.Extensions\Rimutec.AspNetCore.SpaServices.Extensions.csproj" />
+    <ProjectReference Include="..\RimuTec.AspNetCore.SpaServices.Extensions\RimuTec.AspNetCore.SpaServices.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

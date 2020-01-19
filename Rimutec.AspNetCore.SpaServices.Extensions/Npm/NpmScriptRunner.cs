@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace Rimutec.AspNetCore.SpaServices.Extensions
+namespace RimuTec.AspNetCore.SpaServices.Extensions
 {
     internal class NpmScriptRunner
     {

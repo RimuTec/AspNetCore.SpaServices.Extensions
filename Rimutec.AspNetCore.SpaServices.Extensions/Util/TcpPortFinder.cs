@@ -4,7 +4,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace Rimutec.AspNetCore.SpaServices.Extensions
+namespace RimuTec.AspNetCore.SpaServices.Extensions
 {
     internal static class TcpPortFinder
     {

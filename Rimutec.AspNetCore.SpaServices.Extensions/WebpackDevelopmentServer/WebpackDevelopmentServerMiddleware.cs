@@ -1,4 +1,4 @@
-﻿// Copyright 2020 (c) Rimutec Ltd. All rights reserved.
+﻿// Copyright 2020 (c) RimuTec Ltd. All rights reserved.
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 //
@@ -7,14 +7,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Logging;
-using Rimutec.AspNetCore.SpaServices.Extensions;
+using RimuTec.AspNetCore.SpaServices.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Rimutec.AspNetCore.SpaServices.WebpackDevelopmentServer
+namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 {
     /// <summary>
     /// This class is loosely based on the code base of class ReactDevelopmentServerMiddleware
@@ -22,7 +22,7 @@ namespace Rimutec.AspNetCore.SpaServices.WebpackDevelopmentServer
     /// </summary>
     internal static class WebpackDevelopmentServerMiddleware
     {
-        private const string LogCategoryName = nameof(Rimutec)
+        private const string LogCategoryName = nameof(RimuTec)
                                         + "." + nameof(AspNetCore)
                                         + "." + nameof(SpaServices)
                                         + "." + nameof(WebpackDevelopmentServerMiddleware);
