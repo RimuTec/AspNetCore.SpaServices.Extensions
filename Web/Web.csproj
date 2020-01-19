@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpaServices.Extensions\SpaServices.Extensions.csproj" />
+    <ProjectReference Include="..\Rimutec.AspNetCore.SpaServices.Extensions\Rimutec.AspNetCore.SpaServices.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

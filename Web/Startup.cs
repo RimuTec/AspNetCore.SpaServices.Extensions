@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SpaServices.Extensions.Webpack;
-using System;
+using Rimutec.AspNetCore.SpaServices.WebpackDevelopmentServer;
 
 namespace Web
 {

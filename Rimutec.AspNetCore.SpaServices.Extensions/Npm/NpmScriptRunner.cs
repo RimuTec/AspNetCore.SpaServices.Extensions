@@ -1,13 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using SpaServices.Extensions.Util;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SpaServices.Extensions.Npm
+namespace Rimutec.AspNetCore.SpaServices.Extensions
 {
     internal class NpmScriptRunner
     {
@@ -30,7 +31,6 @@ namespace SpaServices.Extensions.Npm
 
             var npmExe = "npm";
             var completeArguments = $"run {scriptName} -- {arguments ?? string.Empty}";
-            //var completeArguments = "-v";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // On Windows, the NPM executable is a .cmd file, so it can't be executed

@@ -4,7 +4,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SpaServices.Extensions.Util
+namespace Rimutec.AspNetCore.SpaServices.Extensions
 {
     internal static class TaskTimeoutExtensions
     {

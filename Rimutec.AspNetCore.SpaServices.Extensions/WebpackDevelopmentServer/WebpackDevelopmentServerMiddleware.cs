@@ -1,21 +1,31 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.NodeServices;
+﻿// Copyright 2020 (c) Rimutec Ltd. All rights reserved.
+// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+//
+// This file has been modified by Rimutec Ltd to use it for WebDevelopmentServer support in development.
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Logging;
-using SpaServices.Extensions.Npm;
-using SpaServices.Extensions.Util;
+using Rimutec.AspNetCore.SpaServices.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SpaServices.Extensions.Webpack
+namespace Rimutec.AspNetCore.SpaServices.WebpackDevelopmentServer
 {
+    /// <summary>
+    /// This class is loosely based on the code base of class ReactDevelopmentServerMiddleware
+    /// in NuGet package Microsoft.AspNetCore.SpaServices.Extensions
+    /// </summary>
     internal static class WebpackDevelopmentServerMiddleware
     {
-        private const string LogCategoryName = nameof(SpaServices) + "." + nameof(Extensions) + "." + nameof(Webpack) + "." + nameof(WebpackDevelopmentServerMiddleware);
+        private const string LogCategoryName = nameof(Rimutec)
+                                        + "." + nameof(AspNetCore)
+                                        + "." + nameof(SpaServices)
+                                        + "." + nameof(WebpackDevelopmentServerMiddleware);
         private static TimeSpan RegexMatchTimeout = TimeSpan.FromSeconds(5); // This is a development-time only feature, so a very long timeout is fine
 
         public static void Attach(
@@ -25,12 +35,16 @@ namespace SpaServices.Extensions.Webpack
             var sourcePath = spaBuilder.Options.SourcePath;
             if (string.IsNullOrEmpty(sourcePath))
             {
-                throw new ArgumentException("Cannot be null or empty", nameof(sourcePath));
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new InvalidOperationException("Must set ISpaBuilder.Options.SourcePath before calling this method.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
             if (string.IsNullOrEmpty(npmScriptName))
             {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                 throw new ArgumentException("Cannot be null or empty", nameof(npmScriptName));
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
             // Start webpack-dev-server and attach to middleware pipeline
@@ -41,39 +55,32 @@ namespace SpaServices.Extensions.Webpack
             Task<Uri> targetUriTask = null;
             appBuilder.Use(async (context, next) =>
             {
-                if(portTask == null)
+                if (portTask == null)
                 {
-                    // Get port number of webapp first before we start webpack-dev-server
+                    // Get port number of webapp first before we start webpack-dev-server, so that
+                    // webpack can use the port number of the webapp for the websocket configuration.
                     var request = context.Request;
                     int socketPortNumber = request.Host.Port.Value;
-                    string hostName = request.Host.Host;
-                    string scheme = request.Scheme;
-                    // here we can also get the host name and others that might be useful for the socket to be used by webpack bundles
                     portTask = StartWebpackDevServerAsync(sourcePath, npmScriptName, logger, socketPortNumber);
+                    // Everything we **proxy** is hardcoded to target http://localhost because:
+                    // - the requests are always from the local machine (we're not accepting remote
+                    //   requests that go directly to the webpack-dev-server server)
+                    // - given that, there's no reason to use https, and we couldn't even if we
+                    //   wanted to, because in general the webpack-dev-server server has no certificate
+#pragma warning disable CA2008 // Do not create tasks without passing a TaskScheduler
                     targetUriTask = portTask.ContinueWith(task =>
                     {
-                        //Uri uri = new UriBuilder(scheme, "localhost", task.Result).Uri;
                         // "https" here doesn't work as the webpack-dev-server expects request via "http"
-                        Uri uri = new UriBuilder("http", "localhost", task.Result).Uri; 
+                        Uri uri = new UriBuilder("http", "localhost", task.Result).Uri;
                         return uri;
                     });
+#pragma warning restore CA2008 // Do not create tasks without passing a TaskScheduler
                 }
 
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
                 await next();
+#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             });
-          
-            
-            //var portTask = StartWebpackDevelopmentServerAsync(sourcePath, npmScriptName, logger);
-
-            // Everything we proxy is hardcoded to target http://localhost because:
-            // - the requests are always from the local machine (we're not accepting remote
-            //   requests that go directly to the webpack-dev-server server)
-            // - given that, there's no reason to use https, and we couldn't even if we
-            //   wanted to, because in general the webpack-dev-server server has no certificate
-            //var targetUriTask = portTask.ContinueWith(task => 
-            //    { 
-            //        return new UriBuilder("http", "localhost", task.Result).Uri; 
-            //    });
 
             SpaProxyingExtensions.UseProxyToSpaDevelopmentServer(spaBuilder, () =>
             {
@@ -93,19 +100,15 @@ namespace SpaServices.Extensions.Webpack
             var portNumber = TcpPortFinder.FindAvailablePort();
             logger.LogInformation($"Starting webpack-dev-server on port {portNumber}...");
 
-            // TODO: Check option "--stdin" to see if this terminates webpack-dev-server when the webapp stops. 
+            // Use option "--stdin" so nodejs process with webpack-dev-server stops when the webapp stops:
             // https://webpack.js.org/configuration/dev-server/#devserverstdin---cli-only
-            var arguments = $"--port {portNumber} --sockPort {socketPortNumber}";
+            var arguments = $"--port {portNumber} --sockPort {socketPortNumber} --stdin";
             var envVars = new Dictionary<string, string>
             {
-                //{ "PORT", "55555" },
-                //{ "PORT", portNumber.ToString() },
-                //{ "BROWSER", "none" }, // We don't want create-react-app to open its own extra browser window pointing to the internal dev server port
             };
             var npmScriptRunner = new NpmScriptRunner(
-                sourcePath, npmScriptName, 
+                sourcePath, npmScriptName,
                 arguments,
-                //null, 
                 envVars);
             npmScriptRunner.AttachToLogger(logger);
 
@@ -117,11 +120,10 @@ namespace SpaServices.Extensions.Webpack
                     // it doesn't do so until it's finished compiling, and even then only if there were
                     // no compiler warnings. So instead of waiting for that, consider it ready as soon
                     // as it starts listening for requests.
-
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
                     await npmScriptRunner.StdOut.WaitForMatch(
                         new Regex("Project is running at", RegexOptions.None, RegexMatchTimeout));
-                    //await npmScriptRunner.StdOut.WaitForMatch(
-                    //    new Regex("Starting the development server", RegexOptions.None, RegexMatchTimeout));
+#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
                 }
                 catch (EndOfStreamException ex)
                 {
