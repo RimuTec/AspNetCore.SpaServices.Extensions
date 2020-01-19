@@ -1,15 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <SpaRoot>ClientApp\</SpaRoot>
+    <SpaRoot>wwwroot\</SpaRoot>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\dist\**" />
-    <Content Remove="ClientApp\dist\**" />
-    <EmbeddedResource Remove="ClientApp\dist\**" />
-    <None Remove="ClientApp\dist\**" />
+    <Compile Remove="wwwroot\dist\**" />
+    <Content Remove="wwwroot\dist\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
+    <None Remove="wwwroot\dist\**" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -22,8 +28,18 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
   </Target>
 
+  <!-- Run Webpack with production build only when Release is configure. Also, the command needs to run
+       in the correct directory, i.e. where the file package.json is located. Note that msbuild has the
+       location of the project file (*.csproj) as the default WorkingDirectory -->
+  <!--<Target Name="WebpackDebug" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
+    <Exec WorkingDirectory="./wwwroot" Command="npm run build" />
+  </Target>-->
+  <Target Name="WebpackProd" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Release' ">
+    <Exec WorkingDirectory="./wwwroot" Command="npm run build:prod" />
+  </Target>
+
   <ItemGroup>
-    <None Remove="ClientApp\src\index.ts" />
+    <None Remove="wwwroot\src\index.ts" />
   </ItemGroup>
 
   <ItemGroup>

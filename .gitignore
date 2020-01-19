@@ -353,4 +353,4 @@ MigrationBackup/
 .ionide/
 
 # Repository specific directives
-/Web/ClientApp/dist
+/Web/wwwroot/dist

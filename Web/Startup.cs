@@ -24,7 +24,8 @@ namespace Web
             // BEGIN react-multi-hmr
             services.AddSpaStaticFiles(configuration => 
             {
-                configuration.RootPath = "ClientApp/dist";
+                // This is where files will be served from in non-Development environments
+                configuration.RootPath = "wwwroot/dist"; 
             });
             // END react-multi-hmr
         }
@@ -56,9 +57,9 @@ namespace Web
             // BEGIN react-multi-hmr
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "wwwroot/src";
 
-                if(env.IsDevelopment())
+                if(env.IsDevelopment()) // "Development", not "Debug" !!
                 {
                     spa.UseWebpackDevelopmentServer(npmScript: "start");
                 }

@@ -22,7 +22,7 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: './dist',
+        contentBase: './wwwroot/dist',
         headers: {
             // TODO: we may not need these after all:
             "Access-Control-Allow-Origin": "*",
@@ -41,10 +41,11 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx']
     }
     ,mode: isDevelopment ? 'development' : 'production'
-    ,output: {
+    , output: {
+        //path: path.resolve(__dirname, 'wwwroot/dist'),
         filename: isDevelopment ? '[name].js' : '[name].[hash].js',
         //publicPath: '/'
-        crossOriginLoading: "anonymous",
+        crossOriginLoading: "anonymous"
     },
     plugins: [
         new CleanWebpackPlugin(),
