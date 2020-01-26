@@ -19,7 +19,7 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
     {
         public static void UseWebpackDevelopmentServer(
             this ISpaBuilder spaBuilder,
-            string npmScript
+            string npmScriptName
             )
         {
             if (spaBuilder == null)
@@ -38,7 +38,31 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
-            WebpackDevelopmentServerMiddleware.Attach(spaBuilder, npmScript);
+            WebpackDevelopmentServerMiddleware.Attach(spaBuilder, npmScriptName);
+        }
+
+        public static void BuildAndUseBundles(
+            this ISpaBuilder spaBuilder,
+            string npmScriptName
+            )
+        {
+            if (spaBuilder == null)
+            {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new ArgumentException($"Parameter {nameof(spaBuilder)} cannot be null.", nameof(spaBuilder));
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+            }
+
+            var spaOptions = spaBuilder.Options;
+
+            if (string.IsNullOrEmpty(spaOptions.SourcePath))
+            {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new InvalidOperationException($"To use {nameof(UseWebpackDevelopmentServer)}, you must supply a non-empty value for the {nameof(SpaOptions.SourcePath)} property of {nameof(SpaOptions)} when calling {nameof(SpaApplicationBuilderExtensions.UseSpa)}.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+            }
+
+            WebpackDevelopmentServerMiddleware.PackBundles(spaBuilder, npmScriptName);
         }
     }
 }

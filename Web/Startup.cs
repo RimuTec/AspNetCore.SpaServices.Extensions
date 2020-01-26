@@ -61,7 +61,7 @@ namespace Web
 
                 if(env.IsDevelopment()) // "Development", not "Debug" !!
                 {
-                    spa.UseWebpackDevelopmentServer(npmScript: "start");
+                    spa.UseWebpackDevelopmentServer(npmScriptName: "start");
                 }
             });
             // END react-multi-hmr

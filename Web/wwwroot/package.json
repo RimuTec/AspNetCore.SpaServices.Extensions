@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init": "npm ci",
     "build": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.js",
@@ -27,9 +28,5 @@
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.10.1"
   },
-  "dependencies": {},
-  "optionalDependencies": {
-    "fsevents": "1.2.9"
-  },
-  "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301"
+  "dependencies": {}
 }
