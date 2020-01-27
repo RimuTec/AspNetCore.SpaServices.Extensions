@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RimuTec.AspNetCore.SpaServices.Extensions", "RimuTec.AspNetCore.SpaServices.Extensions\RimuTec.AspNetCore.SpaServices.Extensions.csproj", "{DFDA9648-DD85-4AB4-8F00-9D658630B716}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebpackWebApp", "SampleWebpackWebApp\SampleWebpackWebApp.csproj", "{E25DD13A-D7E8-4C03-86A9-221EE8A4FEE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "docs", "docs\docs.csproj", "{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docs", "docs\docs.csproj", "{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSpaWebApp", "SampleSpaWebApp\SampleSpaWebApp.csproj", "{A33E13CC-7474-4AE7-8503-EAEE75400146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +33,14 @@ Global
 		{DFDA9648-DD85-4AB4-8F00-9D658630B716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFDA9648-DD85-4AB4-8F00-9D658630B716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFDA9648-DD85-4AB4-8F00-9D658630B716}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E25DD13A-D7E8-4C03-86A9-221EE8A4FEE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E25DD13A-D7E8-4C03-86A9-221EE8A4FEE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E25DD13A-D7E8-4C03-86A9-221EE8A4FEE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E25DD13A-D7E8-4C03-86A9-221EE8A4FEE9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A33E13CC-7474-4AE7-8503-EAEE75400146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A33E13CC-7474-4AE7-8503-EAEE75400146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A33E13CC-7474-4AE7-8503-EAEE75400146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A33E13CC-7474-4AE7-8503-EAEE75400146}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\.babelrc" />
+    <Content Remove="wwwroot\README.md" />
+    <Content Remove="wwwroot\src\index.ts" />
+    <Content Remove="wwwroot\webpack.config.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\.babelrc" />
+    <None Include="wwwroot\README.md" />
+    <None Include="wwwroot\src\index.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="wwwroot\webpack.config.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="0.9.6" />
+  </ItemGroup>
+
+  <!-- *********************************************************************************************************************************** -->
+  <!-- BEGIN react-multi-hmr -->
+
+  <PropertyGroup>
+    <!-- This is where we set the path for the SPA files: -->
+    <SpaRoot>wwwroot\</SpaRoot>
+  </PropertyGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-optionals" />
+  </Target>
+
+  <ItemGroup>
+    <!-- Reference for Content and None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
+         and https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
+    <Content Remove="$(SpaRoot)\**" />
+    <None Include="$(SpaRoot)\src\**" />
+    <None Include="$(SpaRoot)\*"/>
+  </ItemGroup>
+
+  <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
+    <!-- When building Debug bundle but do not minify -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+  </Target>
+
+  <Target Name="BuildProd" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Release' ">
+    <!-- When building Release create production bundle as per webpack.config.js -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" />
+  </Target>
+
+  <Target Name="PublishDistFiles" AfterTargets="ComputeFilesToPublish">
+    <!-- Source for this target: https://stackoverflow.com/a/54725321/411428 -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+  <!-- END react-multi-hmr -->
+  <!-- *********************************************************************************************************************************** -->
+</Project>

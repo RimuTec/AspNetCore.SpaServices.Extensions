@@ -21,18 +21,11 @@ The following steps assume that you have a single SPA in your project and that *
 
 **Note:** The following are just the key steps (one-off) to add support for webpack dev server (WPS) with hot module replacement (HMR) to your projects. It does not describe the full content of all files involved. The [github repository](https://github.com/RimuTec/AspNetCore.SpaServices.Extensions) for the source code of this NuGet package contains the source code for a complete example application.
 
-1. To use this extension in an ASP.NET Core 3.1 project, add the [NuGet package `RimuTec.AspNetCore.SpaServices.Extensions`](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) to the project, using the dotnet cli:
+1. To use this extension in an ASP.NET Core 3.1 project, add the [NuGet package `RimuTec.AspNetCore.SpaServices.Extensions`](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) to the project, e.g. using the dotnet cli in a terminal window:
 
    ```dotnet
-   dotnet add package Rimutec.AspNetCore.SpaServices.Extensions --version 0.9.2
+   dotnet add package Rimutec.AspNetCore.SpaServices.Extensions
    ```
-   
-   Or in the Package Manger terminal:
-
-   ```dotnet
-   Install-Package Rimutec.AspNetCore.SpaServices.Extensions -Version 0.9.2
-   ```
-
 
 2. In the file `Startup.cs`, in class `Startup` add the following code to method `ConfigureServices(IServiceCollection services)`:
 
@@ -224,10 +217,10 @@ Please be aware that it pays big times to study the full source code for this ex
 
 1. Hot Module Replacement (HMR) does not work
 
-   This can have several reasons. Typically there is only a small number of factors that need to be checked. Try these:
+   This can have several reasons. Typically there is only a small number of factors that need to be checked. Check and confirm these:
 
    - Ensure the path to your SPA is set correctly in all places, i.e. `webpack.config.js`, project file, class `Startup` in two places
-   - Ensure the project properties in the tab `Debug` you have an environment variable named `ASPNETCORE_ENVIRONMENT` that is set to the value `Development`
+   - Ensure the project properties in the tab `Debug` have an environment variable named `ASPNETCORE_ENVIRONMENT` that is set to the value `Development`
 
 
 ## Bug Reports and Other Suggestions for Improvement

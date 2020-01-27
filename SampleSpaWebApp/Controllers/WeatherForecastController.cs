@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace SampleWebpackWebApp.Controllers
+namespace SampleSpaWebApp.Controllers
 {
     [ApiController]
     [Route("[controller]")]

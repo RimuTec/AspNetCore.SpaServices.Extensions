@@ -1,6 +1,6 @@
 using System;
 
-namespace SampleWebpackWebApp
+namespace SampleSpaWebApp
 {
     public class WeatherForecast
     {
