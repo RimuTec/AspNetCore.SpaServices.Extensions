@@ -131,13 +131,7 @@ The following steps assume that you have a single SPA in your project and that *
             ]
         },
         devServer: {
-            contentBase: './wwwroot/dist',
-            headers: {
-                // TODO: we may not need these after all:
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-                "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-            },
+            contentBase: './wwwroot/dist'
         },
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx']
@@ -212,6 +206,14 @@ The following steps assume that you have a single SPA in your project and that *
 With this in place you should be able to compile, build and debug your project.
 
 Please be aware that it pays big times to study the full source code for this example at https://github.com/RimuTec/AspNetCore.SpaServices.Extensions.
+
+## Sample Application
+
+This repository contains a sample application named "SampleSpaWebApp". The sample application makes use of the NuGet package and includes all code required to get WDS (webpack dev server) with hot module replacement (HMR) working.
+
+The sample application demonstrates the scenario for one single page application (SPA). We may add a sample application for multiple SPA at a later stage.
+
+**Note:** Do not confuse the sample application with the project "Web" that is included in this repository as well. "Web" is used to develop the NuGet package. Althoughh it appears very similar it should not be used as a sample project for how to use the NuGet package.
 
 ## Troubleshooting
 

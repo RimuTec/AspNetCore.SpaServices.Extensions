@@ -354,3 +354,4 @@ MigrationBackup/
 
 # Repository specific directives
 /Web/wwwroot/dist
+/SampleSpaWebApp/wwwroot/dist
