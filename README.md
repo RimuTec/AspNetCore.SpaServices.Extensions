@@ -75,9 +75,9 @@ The following steps assume that you have a single SPA in your project and that *
 
     ```json
     {
-      ...
+      // other content left out for brevity
       "scripts": {
-        ... your other scripts here ...
+        // your other scripts here
         "build": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
         "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
         "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.js",
@@ -102,6 +102,7 @@ The following steps assume that you have a single SPA in your project and that *
         "webpack-dev-server": "3.10.1"
       },
       "dependencies": {}
+      // other content left out for brevity
     }
     ```
 
