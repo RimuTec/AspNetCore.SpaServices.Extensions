@@ -10,6 +10,11 @@ The problem is that the recommended replacement does not offer a direct replacem
 
 This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension methods named `ISpaBuilder.UseWebpackDevelopmentServer()` that aims at providing a replacement that minimizes required code changes.
 
+| Metric      | Status      |
+| ----- | ----- |
+| Nuget       | [![NuGet Badge](https://buildstats.info/nuget/RimuTec.AspNetCore.SpaServices.Extensions)](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) |
+
+
 ## Usage
 
 The following steps assume that you have a single SPA in your project and that *all* files for the SPA are in a folder named `wwwroot` within your ASP.NET Core 3.1 project.
