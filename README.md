@@ -14,6 +14,11 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 | ----- | ----- |
 | Nuget       | [![NuGet Badge](https://buildstats.info/nuget/RimuTec.AspNetCore.SpaServices.Extensions)](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) |
 
+## Prerequisites
+
+- Visual Studio 2019 Community Edition, 16.4.3 or later. Other versions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
+- Nodejs 12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/))
+- .NET Core 3.1.101 or later. Other versions may work, too, but weren't tested. ([Download](https://dotnet.microsoft.com/download/dotnet-core/3.1), however, this typically comes with Visual Studio 2019 already)
 
 ## Usage
 
