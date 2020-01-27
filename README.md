@@ -8,7 +8,9 @@ Package `Microsoft.AspNetCore.SpaServices.Extensions` is recommended to be used 
 
 The problem is that the recommended replacement does not offer a direct replacement for `ISpaBuilder.UseWebpackDevMiddleware()`. This leaves developers who would like to continue using this convenient method without a suitable solution.
 
-This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension methods named `ISpaBuilder.UseWebpackDevelopmentServer()` that aims at providing a replacement that minimizes required code changes.
+This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension method named `ISpaBuilder.UseWebpackDevelopmentServer()` that aims at providing a replacement that minimizes required code changes.
+
+**Note:** This NuGet package does not offer a replacement for any other methods or packages that may have been declared deprecated. For example this NuGet package is _not_ a replacement for `Microsoft.AspNetCore.NodeServices`.
 
 | Metric      | Status      |
 | ----- | ----- |
@@ -222,9 +224,7 @@ The sample application demonstrates the scenario for one single page application
 
 ## Troubleshooting
 
-1. Hot Module Replacement (HMR) does not work
-
-   This can have several reasons. Typically there is only a small number of factors that need to be checked. Check and confirm these:
+In case Hot Module Replacement (HMR) does not work, it can have several reasons. Typically there is only a small number of factors that need to be checked. Check and confirm these:
 
    - Ensure the path to your SPA is set correctly in all places, i.e. `webpack.config.js`, project file, class `Startup` in two places
    - Ensure the project properties in the tab `Debug` have an environment variable named `ASPNETCORE_ENVIRONMENT` that is set to the value `Development`
@@ -239,12 +239,6 @@ If you report a bug report the best option to get it resolved is a github repo w
 Keep in mind that support is provided only at https://github.com/RimuTec/AspNetCore.SpaServices.Extensions/issues and that it is "best effort". All contributors to this repository use their spare time to work on this NuGet package.
 
 Pull Requests (PRs) are welcome. Please send them to the branch `master`. Thank you!
-
-## Other Notes
-
-RimuTec's package offers a rough replacement for the depracated `UseWebpackDevMiddleware()` by with its implementation of the extension method ```ISpaBuilder.UseWebpackDevelopmentServer()```.
-
-**Note:** NuGet package `Microsoft.AspNetCore.NodeServices` has been [deprecated](https://github.com/dotnet/aspnetcore/issues/12890), too. However, our NuGet package does _not_ offer a replacement for that package.
 
 # Additional Background
 
