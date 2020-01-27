@@ -12,7 +12,8 @@
     <Version>0.9.3</Version>
     <RepositoryUrl>https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</RepositoryUrl>
     <Copyright>Copyright 2020 by RimuTec Ltd. All rights reserved.</Copyright>
-    <Description>Replacement for deprecated ISpaBuilder.UseWebpackDevServer()</Description>
+    <Description>Replacement for deprecated ISpaBuilder.UseWebpackDevMiddleware</Description>
+    <PackageTags>netcoreapp3.1 AspNetCore SpaServices UseWebpackDevMiddleware</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
