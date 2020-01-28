@@ -165,26 +165,34 @@ The following steps assume that you have a single SPA in your project and that *
       <!-- other code left out for brevity -->
 
       <PropertyGroup>
-        <!-- This is where we set the path for the SPA files: -->
-        <SpaRoot>wwwroot\</SpaRoot> <!-- <<<<<< this is important -->
+        <!-- This is where we set the path for the SPA files (include trailing slash to avoid having to repeat it elsewhere): -->
+        <SpaRoot>wwwroot/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
       </PropertyGroup>
 
-      <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+      <Target Name="DebugEnsureNodeEnv" BeforeTargets="PreBuildEvent" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
         <Exec Command="node --version" ContinueOnError="true">
           <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-optionals" />
+        <!-- If file 'package-lock.json' exists, we use 'npm ci', otherwise 'npm install'. In both cases 
+             use the 'no-optionals' option to avoid an issue with fsevent reported at
+             https://github.com/fsevents/fsevents/issues/301 -->
+        <PropertyGroup>
+          <PackageLockFile>$(SpaRoot)package-lock.json</PackageLockFile>
+        </PropertyGroup>
+        <Message Condition="Exists($(PackageLockFile))" Importance="high" Text="Restoring dependencies using 'npm ci --no-optionals'. This may take several minutes..." />
+        <Exec Condition="Exists($(PackageLockFile))" WorkingDirectory="$(SpaRoot)" Command="npm ci --no-optionals" />
+        <Message Condition="!Exists($(PackageLockFile))" Importance="high" Text="Restoring dependencies using 'npm install --no-optionals'. This may take several minutes..." />
+        <Exec Condition="!Exists($(PackageLockFile))" WorkingDirectory="$(SpaRoot)" Command="npm install --no-optionals" />
       </Target>
 
       <ItemGroup>
         <!-- Reference for Content and None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
              and https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
-        <Content Remove="$(SpaRoot)\**" />
-        <None Include="$(SpaRoot)\src\**" />
-        <None Include="$(SpaRoot)\*"/>
+        <Content Remove="$(SpaRoot)**" />
+        <None Include="$(SpaRoot)src/**" />
+        <None Include="$(SpaRoot)*" />
       </ItemGroup>
 
       <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
@@ -200,13 +208,13 @@ The following steps assume that you have a single SPA in your project and that *
       <Target Name="PublishDistFiles" AfterTargets="ComputeFilesToPublish">
         <!-- Source for this target: https://stackoverflow.com/a/54725321/411428 -->
         <ItemGroup>
-          <DistFiles Include="$(SpaRoot)\dist\**" />
+          <DistFiles Include="$(SpaRoot)dist/**" />
           <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
             <RelativePath>%(DistFiles.Identity)</RelativePath>
             <CopyToPublishDirectory>Always</CopyToPublishDirectory>
           </ResolvedFileToPublish>
         </ItemGroup>
-      </Target>
+      </Target>    
     </Project>
     ```
 

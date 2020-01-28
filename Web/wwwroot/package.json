@@ -28,5 +28,9 @@
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.10.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "optionalDependencies": {
+    "fsevents": "1.2.9"
+  },
+  "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301"
 }
