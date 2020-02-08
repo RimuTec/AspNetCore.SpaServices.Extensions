@@ -4,25 +4,28 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+ 
   <ItemGroup>
-    <Content Remove="wwwroot/.babelrc" />
-    <Content Remove="wwwroot/README.md" />
-    <Content Remove="wwwroot/src\index.ts" />
-    <Content Remove="wwwroot/webpack.config.js" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <None Include="wwwroot/.babelrc" />
     <None Include="wwwroot/README.md" />
     <None Include="wwwroot/src/index.ts">
       <SubType>Code</SubType>
     </None>
     <None Include="wwwroot/webpack.config.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="0.9.6" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <!-- *********************************************************************************************************************************** -->
   <!-- BEGIN react-webpack-hmr -->
@@ -55,7 +58,11 @@
          and https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)src/**" />
-    <None Include="$(SpaRoot)*"/>
+    <None Include="$(SpaRoot)*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RimuTec.AspNetCore.SpaServices.Extensions\RimuTec.AspNetCore.SpaServices.Extensions.csproj" />
   </ItemGroup>
 
   <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">

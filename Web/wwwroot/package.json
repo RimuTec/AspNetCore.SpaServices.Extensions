@@ -7,7 +7,7 @@
     "init": "npm ci",
     "build": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --hot --config ./webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-all": "npx -p npm-check-updates ncu -u && npm install"
   },
@@ -15,22 +15,29 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "7.7.7",
-    "@babel/preset-env": "7.7.7",
-    "@babel/preset-react": "7.7.4",
-    "@babel/preset-typescript": "7.7.7",
-    "babel-loader": "^8.0.6",
+    "@babel/core": "7.8.4",
+    "@babel/preset-env": "7.8.4",
+    "@babel/preset-react": "7.8.3",
+    "@babel/preset-typescript": "7.8.3",
+    "@types/react": "16.9.19",
+    "@types/react-dom": "16.9.5",
+    "babel-loader": "8.0.6",
     "clean-webpack-plugin": "3.0.0",
-    "cross-env": "6.0.3",
+    "cross-env": "7.0.0",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "3.2.0",
+    "typescript": "3.7.5",
     "webpack": "4.41.5",
     "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.10.1"
+    "webpack-dev-server": "3.10.2"
   },
-  "dependencies": {},
   "optionalDependencies": {
     "fsevents": "1.2.9"
   },
-  "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301"
+  "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
+  "dependencies": {
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-hot-loader": "4.12.19"
+  }
 }

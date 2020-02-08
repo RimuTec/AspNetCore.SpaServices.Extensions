@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "CommonJS",
+    // Do not emit code as we are using babel for this:
+    "noEmit": true,
+    "sourceMap": true,
+    "target": "es6"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "dest",
+    "node_modules"
+  ]
+}

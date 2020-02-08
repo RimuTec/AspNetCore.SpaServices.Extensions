@@ -78,7 +78,7 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
                 }
 
 #pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
-                await next();
+                await next.Invoke();
 #pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             });
 
@@ -103,9 +103,7 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
             // Use option "--stdin" so nodejs process with webpack-dev-server stops when the webapp stops:
             // https://webpack.js.org/configuration/dev-server/#devserverstdin---cli-only
             var arguments = $"--port {portNumber} --sockPort {socketPortNumber} --stdin";
-            var envVars = new Dictionary<string, string>
-            {
-            };
+            var envVars = new Dictionary<string, string> {};
             var npmScriptRunner = new NpmScriptRunner(
                 sourcePath, npmScriptName,
                 arguments,

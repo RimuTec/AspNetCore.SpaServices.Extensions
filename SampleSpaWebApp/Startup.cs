@@ -56,11 +56,6 @@ namespace SampleSpaWebApp
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
             // BEGIN react-multi-hmr
             app.UseSpa(spa =>
             {
@@ -72,6 +67,11 @@ namespace SampleSpaWebApp
                 }
             });
             // END react-multi-hmr
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
