@@ -16,7 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="0.9.9" />
+    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="1.0.0" />
   </ItemGroup>
 
 
