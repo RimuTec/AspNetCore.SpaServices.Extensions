@@ -57,10 +57,6 @@ The following steps assume that you have a single SPA in your project and that *
     {
         // ... other code left out for brevity
 
-        app.UseStaticFiles(); // <-- this line may already exist
-        app.UseSpaStaticFiles(); // <-- this line may already exist
-
-        // ... other code left out for brevity
 
         app.UseSpa(spa =>
         {
@@ -71,10 +67,16 @@ The following steps assume that you have a single SPA in your project and that *
                 spa.UseWebpackDevelopmentServer(npmScriptName: "start");
             }
         });
+
+        // ... other code left out for brevity
+
+        app.UseStaticFiles(); // <-- this line may already exist
+        app.UseSpaStaticFiles(); // <-- this line may already exist
     
         // ... other code left out for brevity
     }
     ```
+    **Important:** The two terminal handlers - `UseStaticFiles()` and `UseSpaStaticFiles()` - must be added to the HTTP request pipeline **after** adding `UseWebpackDevelopmentServer()`. Otherwise the terminal handlers will try handling the requests for bundles, and as a consequence the webpack development server middleware will never see those requests. As a result hot module reloading (HMR) will not work.
 
 4. Add a file `package.json` in folder `wwwroot` with the following content:
 
@@ -107,7 +109,7 @@ The following steps assume that you have a single SPA in your project and that *
         "webpack-dev-server": "3.10.1"
       },
       "dependencies": {}
-      // other content left out for brevity
+      // other content left out for brevity, please see repository for full source code
     }
     ```
 
@@ -157,6 +159,7 @@ The following steps assume that you have a single SPA in your project and that *
         ]
     };
     ```
+    Note: You can use a folder name other than `wwwwroot`. If you, you need to update it in multiple places including the project file (csproj) where you need to set the property `SpaRoot` to the correct value.
 6. Now edit your project file and add the following piece at the end of the file:
 
     ```xml
@@ -188,15 +191,15 @@ The following steps assume that you have a single SPA in your project and that *
       </Target>
 
       <ItemGroup>
-        <!-- Reference for Content and None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
-             and https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
+        <!-- Reference for Content tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
+             and for None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
         <Content Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)src/**" />
         <None Include="$(SpaRoot)*" />
       </ItemGroup>
 
       <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-        <!-- When building Debug bundle but do not minify -->
+        <!-- When building Debug bundle do not minify -->
         <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
       </Target>
 
@@ -214,11 +217,11 @@ The following steps assume that you have a single SPA in your project and that *
             <CopyToPublishDirectory>Always</CopyToPublishDirectory>
           </ResolvedFileToPublish>
         </ItemGroup>
-      </Target>    
+      </Target>
     </Project>
     ```
 
-With this in place you should be able to compile, build and debug your project.
+With this in place you should be able to compile, build and debug your project. Now if you change a file that is part of the bundle, webpack-dev-server will re-build the bundle in memory and send an update to the client browser. Obviously this also depends on the content of `package.json`, `webpack.config.js` and `tsconfig.json`.
 
 Please be aware that it pays big times to study the full source code for this example at https://github.com/RimuTec/AspNetCore.SpaServices.Extensions.
 

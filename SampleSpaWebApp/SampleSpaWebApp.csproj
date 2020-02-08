@@ -16,19 +16,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="0.9.9" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <None Include="wwwroot/.babelrc" />
-    <None Include="wwwroot/README.md" />
-    <None Include="wwwroot/src/index.ts">
-      <SubType>Code</SubType>
-    </None>
-    <None Include="wwwroot/webpack.config.js" />
-  </ItemGroup>-->
 
   <!-- *********************************************************************************************************************************** -->
-  <!-- BEGIN react-webpack-hmr -->
+  <!-- BEGIN webpack-dev-server -->
 
   <PropertyGroup>
     <!-- This is where we set the path for the SPA files (include trailing slash to avoid having to repeat it elsewhere): -->
@@ -54,19 +47,15 @@
   </Target>
 
   <ItemGroup>
-    <!-- Reference for Content and None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
-         and https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
+    <!-- Reference for Content tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
+         and for None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)src/**" />
     <None Include="$(SpaRoot)*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RimuTec.AspNetCore.SpaServices.Extensions\RimuTec.AspNetCore.SpaServices.Extensions.csproj" />
-  </ItemGroup>
-
   <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-    <!-- When building Debug bundle but do not minify -->
+    <!-- When building Debug create bundle(s) but do not minify -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
   </Target>
 
@@ -86,6 +75,7 @@
     </ItemGroup>
   </Target>
 
-  <!-- END react-webpack-hmr -->
+  <!-- END webpack-dev-server -->
   <!-- *********************************************************************************************************************************** -->
+
 </Project>

@@ -28,18 +28,21 @@ namespace SampleSpaWebApp
         {
             services.AddControllers();
 
-            // BEGIN react-multi-hmr
+            // BEGIN webpack-dev-server
             services.AddSpaStaticFiles(configuration =>
             {
                 // This is where files will be served from in non-Development environments
                 configuration.RootPath = "wwwroot/dist";
             });
-            // END react-multi-hmr
+            // END webpack-dev-server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Note that the sequence in this method is relevnt, as handlers will be added to the request
+            // pipline in the order they are listed here. This is by design in ASP.NET Core.
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -47,26 +50,29 @@ namespace SampleSpaWebApp
 
             app.UseHttpsRedirection();
 
-            // BEGIN react-multi-hmr
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-            // END react-multi-hmr
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            // BEGIN react-multi-hmr
+            // BEGIN webpack-dev-server
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "wwwroot/src";
 
                 if (env.IsDevelopment()) // "Development", not "Debug" !!
                 {
+                    // IMPORTANT: UseWebpackDevelopmentServer() must be called before UseSpaStaticFiles() !!
                     spa.UseWebpackDevelopmentServer(npmScriptName: "start");
                 }
             });
-            // END react-multi-hmr
+            // END webpack-dev-server
+
+            // As the following two are terminal request handlers, they need to be added to the request 
+            // pipeline AFTER the WebpackDevelopmentServer(). For more details about the request pipeline
+            // and terminal handlers, see documentation at
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.1
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

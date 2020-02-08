@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <!-- *********************************************************************************************************************************** -->
-  <!-- BEGIN react-webpack-hmr -->
+  <!-- BEGIN webpack-dev-server -->
 
   <PropertyGroup>
     <!-- This is where we set the path for the SPA files (include trailing slash to avoid having to repeat it elsewhere): -->
@@ -49,15 +49,15 @@
   </Target>
 
   <ItemGroup>
-    <!-- Reference for Content and None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
-         and https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
+    <!-- Reference for Content tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#content
+         and for None tag at https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#none -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)src/**" />
     <None Include="$(SpaRoot)*" />
   </ItemGroup>
 
   <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-    <!-- When building Debug bundle but do not minify -->
+    <!-- When building Debug create bundle(s) but do not minify -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
   </Target>
 
@@ -77,7 +77,7 @@
     </ItemGroup>
   </Target>
 
-  <!-- END react-webpack-hmr -->
+  <!-- END webpack-dev-server -->
   <!-- *********************************************************************************************************************************** -->
 
 </Project>
