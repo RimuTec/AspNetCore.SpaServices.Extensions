@@ -246,8 +246,9 @@ The sample application demonstrates the scenario for one single page application
 
 In case Hot Module Replacement (HMR) does not work, it can have several reasons. Typically there is only a small number of factors that need to be checked. Check and confirm these:
 
-   - Ensure the path to your SPA is set correctly in all places, i.e. `webpack.config.js`, project file, class `Startup` in two places
-   - Ensure the project properties in the tab `Debug` have an environment variable named `ASPNETCORE_ENVIRONMENT` that is set to the value `Development`
+   - Ensure the path to your SPA is set correctly in all places, i.e. `webpack.config.js`, project file, two places in class `Startup`.
+   - Ensure the project properties in the tab `Debug` have an environment variable named `ASPNETCORE_ENVIRONMENT` that is set to the value `Development`.
+   - Make sure you call `UseWebpackDeveloperServer()` **BEFORE** `UseStaticFiles()`, `UseSpaStaticFiles()` and any other terminal handlers.
 
 
 ## Bug Reports and Other Suggestions for Improvement
