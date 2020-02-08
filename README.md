@@ -57,7 +57,6 @@ The following steps assume that you have a single SPA in your project and that *
     {
         // ... other code left out for brevity
 
-
         app.UseSpa(spa =>
         {
             spa.Options.SourcePath = "wwwroot/src"; // <-- this must be the same path as in the previous step
@@ -91,24 +90,34 @@ The following steps assume that you have a single SPA in your project and that *
         ... your other scripts here ...
       },
       "keywords": [],
-      "author": "",
-      "license": "ISC",
+      "author": "RimuTec Ltd.",
+      "license": "Apache-2.0",
       "devDependencies": {
-        ... your other dev dependencies ...
-        "@babel/core": "7.7.7",
-        "@babel/preset-env": "7.7.7",
-        "@babel/preset-react": "7.7.4",
-        "@babel/preset-typescript": "7.7.7",
-        "babel-loader": "^8.0.6",
+        "@babel/core": "7.8.4",
+        "@babel/preset-env": "7.8.4",
+        "@babel/preset-react": "7.8.3",
+        "@babel/preset-typescript": "7.8.3",
+        "@types/react": "16.9.19",
+        "@types/react-dom": "16.9.5",
+        "babel-loader": "8.0.6",
         "clean-webpack-plugin": "3.0.0",
-        "cross-env": "6.0.3",
+        "cross-env": "7.0.0",
         "html-loader": "0.5.5",
         "html-webpack-plugin": "3.2.0",
+        "typescript": "3.7.5",
         "webpack": "4.41.5",
         "webpack-cli": "3.3.10",
-        "webpack-dev-server": "3.10.1"
+        "webpack-dev-server": "3.10.3"
       },
-      "dependencies": {}
+      "optionalDependencies": {
+        "fsevents": "1.2.9"
+      },
+      "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
+      "dependencies": {
+        "react": "16.12.0",
+        "react-dom": "16.12.0",
+        "react-hot-loader": "4.12.19"
+      }
       // other content left out for brevity, please see repository for full source code
     }
     ```

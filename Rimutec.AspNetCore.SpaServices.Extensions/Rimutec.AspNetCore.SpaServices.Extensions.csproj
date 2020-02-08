@@ -12,7 +12,7 @@
     <Version>1.0.0</Version>
     <RepositoryUrl>https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</RepositoryUrl>
     <Copyright>Copyright 2020 by RimuTec Ltd. All rights reserved.</Copyright>
-    <Description>Replacement for SpaBuilder.UseWebpackDevMiddleware() which is declared deprecated in ASP.NET Core 3. https://github.com/RimuTec/AspNetCore.SpaServices.Extensions for usage and sample application.</Description>
+    <Description>Replacement for SpaBuilder.UseWebpackDevMiddleware() which is declared deprecated in ASP.NET Core 3. For usage and sample application see https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</Description>
     <PackageTags>netcoreapp3.1 AspNetCore SpaServices UseWebpackDevMiddleware webpack hot-module-replacement HMR react middleware webpack-dev-server</PackageTags>
     <PackageReleaseNotes>Detailed release notes as well as usage instructions plus a working sample ASP.NET Core 3.1 project with single page application (SPA) with React, webpack-dev-server (WDS) and Hot Module Replacement (HMR) are available at https://github.com/RimuTec/AspNetCore.SpaServices.Extensions.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</PackageProjectUrl>
