@@ -1,5 +1,4 @@
-﻿const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+﻿const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 

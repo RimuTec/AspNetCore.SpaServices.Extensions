@@ -16,7 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="1.1.0" />
+    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="2.0.0" />
   </ItemGroup>
 
 
@@ -25,7 +25,7 @@
 
   <PropertyGroup>
     <!-- This is where we set the path for the SPA files (include trailing slash to avoid having to repeat it elsewhere): -->
-    <SpaRoot>wwwroot/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
+    <SpaRoot>MyApp/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
   </PropertyGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="PreBuildEvent" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

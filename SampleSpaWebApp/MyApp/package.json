@@ -26,6 +26,7 @@
     "cross-env": "7.0.0",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "3.2.0",
+    "react-hot-loader": "4.12.19",
     "typescript": "3.7.5",
     "webpack": "4.41.5",
     "webpack-cli": "3.3.10",
@@ -37,7 +38,6 @@
   "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
   "dependencies": {
     "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-hot-loader": "4.12.19"
+    "react-dom": "16.12.0"
   }
 }
