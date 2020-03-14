@@ -1,3 +1,6 @@
+// Copyright 2020 (c) RimuTec Ltd. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,55 +25,60 @@ namespace Web
             services.AddControllers();
 
             // BEGIN webpack-dev-server
-            services.AddSpaStaticFiles(configuration =>
+            services.AddSpaStaticFiles(spaStaticFileOptions =>
             {
                 // This is where files will be served from in non-Development environments
-                configuration.RootPath = "wwwroot/dist";
+                spaStaticFileOptions.RootPath = "MyApp/dist";
             });
             // END webpack-dev-server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder appBuilder, IWebHostEnvironment webHostEnv)
         {
-            // Note that the sequence in this method is relevnt, as handlers will be added to the request
-            // pipline in the order they are listed here. This is by design in ASP.NET Core.
+            // Note that the sequence in this method is relevant, as handlers will be added to the request
+            // pipeline in the order they are listed here. In ASP.NET Core this is by design.
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.1
 
-            if (env.IsDevelopment())
+            if (webHostEnv.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                appBuilder.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                appBuilder.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                appBuilder.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // Regarding UseHttpsRedirection() please also see the following article:
+            // https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio
+            appBuilder.UseHttpsRedirection();
+            // For details regarding static files in ASP.NET Core, see
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-3.1
+            appBuilder.UseStaticFiles();
+            appBuilder.UseSpaStaticFiles();
 
-            // BEGIN webpack-dev-server
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "wwwroot/src";
+            appBuilder.UseRouting();
 
-                if (env.IsDevelopment()) // "Development", not "Debug" !!
-                {
-                    // IMPORTANT: UseWebpackDevelopmentServer() must be called before UseSpaStaticFiles() !!
-                    spa.UseWebpackDevelopmentServer(npmScriptName: "start");
-                }
-            });
-            // END webpack-dev-server
+            appBuilder.UseAuthorization();
 
-            // As the following two are terminal request handlers, they need to be added to the request 
-            // pipeline AFTER the WebpackDevelopmentServer(). For more details about the request pipeline
-            // and terminal handlers, see documentation at
-            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.1
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+            appBuilder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            // BEGIN webpack-dev-server
+            appBuilder.UseSpa(spaBuilder =>
+            {
+                spaBuilder.Options.SourcePath = "MyApp/src";
+
+                if (webHostEnv.IsDevelopment()) // "Development", not "Debug" !!
+                {
+                    spaBuilder.UseWebpackDevelopmentServer(npmScriptName: "start");
+                }
+            });
+            // END webpack-dev-server
         }
     }
 }

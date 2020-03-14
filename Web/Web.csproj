@@ -27,7 +27,7 @@
 
   <PropertyGroup>
     <!-- This is where we set the path for the SPA files (include trailing slash to avoid having to repeat it elsewhere): -->
-    <SpaRoot>wwwroot/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
+    <SpaRoot>MyApp/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
   </PropertyGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="PreBuildEvent" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

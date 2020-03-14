@@ -5,7 +5,11 @@
 // This file has been modified by Rimutec Ltd to use it for WebDevelopmentServer support in development.
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.SpaServices;
+using Microsoft.AspNetCore.SpaServices.StaticFiles;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RimuTec.AspNetCore.SpaServices.Extensions;
 using System;
@@ -17,7 +21,7 @@ using System.Threading.Tasks;
 namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 {
     /// <summary>
-    /// This class is loosely based on the code base of class ReactDevelopmentServerMiddleware
+    /// This class is very loosely based on the code base of class ReactDevelopmentServerMiddleware
     /// in NuGet package Microsoft.AspNetCore.SpaServices.Extensions
     /// </summary>
     internal static class WebpackDevelopmentServerMiddleware
@@ -47,41 +51,53 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
-            // Start webpack-dev-server and attach to middleware pipeline
             var appBuilder = spaBuilder.ApplicationBuilder;
             var logger = LoggerFinder.GetOrCreateLogger(appBuilder, LogCategoryName);
 
+            // Clear files in distribution directory aka spaStaticFileOptions.RootPath:
+            var spaStaticFileProvider = spaBuilder.ApplicationBuilder.ApplicationServices.GetService(typeof(ISpaStaticFileProvider)) as ISpaStaticFileProvider;
+            ClearSpaRootPath(spaStaticFileProvider.FileProvider, logger);
+
+            // Start webpack-dev-server once the application has started
+            var hostApplicationLifetime = spaBuilder.ApplicationBuilder.ApplicationServices.GetService(typeof(IHostApplicationLifetime)) as IHostApplicationLifetime;
             Task<int> portTask = null;
             Task<Uri> targetUriTask = null;
-            appBuilder.Use(async (context, next) =>
+            var socketPortNumber = 0;
+            hostApplicationLifetime.ApplicationStarted.Register(() =>
             {
-                if (portTask == null)
+                // When this is called the request pipeline configuration has completed. Only now the addresses
+                // at which requests are served are available. We use any address/port combination but use HTTPs
+                // if is configured for the project.
+                var addressFeature = spaBuilder.ApplicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
+                foreach (var addr in addressFeature.Addresses)
                 {
-                    // Get port number of webapp first before we start webpack-dev-server, so that
-                    // webpack can use the port number of the webapp for the websocket configuration.
-                    var request = context.Request;
-                    int socketPortNumber = request.Host.Port.Value;
-                    portTask = StartWebpackDevServerAsync(sourcePath, npmScriptName, logger, socketPortNumber);
-                    // Everything we **proxy** is hardcoded to target http://localhost because:
-                    // - the requests are always from the local machine (we're not accepting remote
-                    //   requests that go directly to the webpack-dev-server server)
-                    // - given that, there's no reason to use https, and we couldn't even if we
-                    //   wanted to, because in general the webpack-dev-server server has no certificate
-#pragma warning disable CA2008 // Do not create tasks without passing a TaskScheduler
-                    targetUriTask = portTask.ContinueWith(task =>
+                    var uri = new Uri(addr);
+                    socketPortNumber = uri.Port;
+                    if (uri.Scheme == "https")
                     {
-                        // "https" here doesn't work as the webpack-dev-server expects request via "http"
-                        Uri uri = new UriBuilder("http", "localhost", task.Result).Uri;
-                        return uri;
-                    });
-#pragma warning restore CA2008 // Do not create tasks without passing a TaskScheduler
+                        break;
+                    }
                 }
 
-#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
-                await next.Invoke();
-#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
+                portTask = StartWebpackDevServerAsync(sourcePath, npmScriptName, logger, socketPortNumber);
+                // Everything we **proxy** is hardcoded to target http://localhost because:
+                // - the requests are always from the local machine (we're not accepting remote
+                //   requests that go directly to the webpack-dev-server)
+                // - given that, there's no reason to use https when forwarding the request to the webpack
+                //   dev server, and we couldn't even if we wanted to, because in general the webpack-dev-server 
+                //   has no certificate
+#pragma warning disable CA2008 // Do not create tasks without passing a TaskScheduler
+                targetUriTask = portTask.ContinueWith(task =>
+                {
+                    // "https" here doesn't work as the webpack-dev-server expects request via "http"
+                    Uri uri = new UriBuilder("http", "localhost", task.Result).Uri;
+                    return uri;
+                });
+#pragma warning restore CA2008 // Do not create tasks without passing a TaskScheduler
             });
 
+            // Configure proxying. By the time a request comes in, the webpack dev server will be running,
+            // so it is fine to configure proxying before the webpack-dev-server has been started.
             SpaProxyingExtensions.UseProxyToSpaDevelopmentServer(spaBuilder, () =>
             {
                 // On each request, we create a separate startup task with its own timeout. That way, even if
@@ -120,7 +136,8 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
                     // as it starts listening for requests.
 #pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
                     await npmScriptRunner.StdOut.WaitForMatch(
-                        new Regex("Project is running at", RegexOptions.None, RegexMatchTimeout));
+                        new Regex("Project is running at", 
+                        RegexOptions.None, RegexMatchTimeout));
 #pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
                 }
                 catch (EndOfStreamException ex)
@@ -133,6 +150,42 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
             }
 
             return portNumber;
+        }
+
+        private static void ClearSpaRootPath(IFileProvider spaStaticFileProvider, ILogger logger)
+        {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+            logger.LogInformation("Deleting SPA static file root content...");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+            foreach (var item in spaStaticFileProvider.GetDirectoryContents(string.Empty))
+            {
+                logger.LogInformation($"Deleting SPA static file or directory {item.PhysicalPath}");
+                Console.WriteLine($"Item: {item.PhysicalPath}");
+                if (item.IsDirectory)
+                {
+                    ClearFolder(item.PhysicalPath);
+                }
+                else
+                {
+                    var fi = new FileInfo(item.PhysicalPath);
+                    fi.Delete();
+                }
+            }
+        }
+
+        private static void ClearFolder(string dist)
+        {
+            var dir = new DirectoryInfo(dist);
+
+            foreach(var fi in dir.EnumerateFiles()) 
+            {
+                fi.Delete();
+            }
+            foreach(var di in dir.EnumerateDirectories())
+            {
+                ClearFolder(di.FullName);
+                di.Delete();
+            }
         }
     }
 }

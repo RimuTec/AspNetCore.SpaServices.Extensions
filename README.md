@@ -18,15 +18,23 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 
 ## Prerequisites
 
-- Visual Studio 2019 Community Edition, 16.4.3 or later. Other versions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
+- Visual Studio 2019 Community Edition, 16.4.5 or later. Other versions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
 - Nodejs 12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/))
 - .NET Core 3.1.101 or later. Other versions may work, too, but weren't tested. ([Download](https://dotnet.microsoft.com/download/dotnet-core/3.1), however, this typically comes with Visual Studio 2019 already)
 
+## Acronyms
+
+HMR = Hot Module Replacement
+SPA = Single Page Application
+WDS = Webpack Dev Server
+
 ## Usage
 
-The following steps assume that you have a single SPA in your project and that *all* files for the SPA are in a folder named `wwwroot` within your ASP.NET Core 3.1 project.
+The following steps assume that you have a single SPA (Single Page Application) in your project and that *all* files for the SPA are in a folder named `MyApp` within your ASP.NET Core 3.1 project. To ensure HMR (Hot Module Reload) works, we recommend separating your SPA from other static files by using a folder other than `wwwroot`. The reason is that `UseStaticFiles()` defaults to serving static files from `wwwroot` and this interferes with webpack dev server and when and how bundles are built.
 
-**Note:** The following are just the key steps (one-off) to add support for webpack dev server (WPS) with hot module replacement (HMR) to your projects. It does not describe the full content of all files involved. The [github repository](https://github.com/RimuTec/AspNetCore.SpaServices.Extensions) for the source code of this NuGet package contains the source code for a complete example application.
+By putting all SPA files into a folder separate from all other static files, the file structure is cleaner as well. Also, **be aware** that **this package deletes all files** in `spaStaticFileOptions.RootPath`. This value is configured in `Startup.ConfigureServices()`.
+
+**Note:** The following are just the key steps (one-offs) for adding support for webpack dev server (WDS) with hot module replacement (HMR) to your projects. It does not describe the full content of all files involved. The [github repository](https://github.com/RimuTec/AspNetCore.SpaServices.Extensions) for the source code of this NuGet package contains the source code for a complete example application.
 
 1. To use this extension in an ASP.NET Core 3.1 project, add the [NuGet package `RimuTec.AspNetCore.SpaServices.Extensions`](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) to the project, e.g. using the dotnet cli in a terminal window:
 
@@ -44,22 +52,30 @@ The following steps assume that you have a single SPA in your project and that *
         services.AddSpaStaticFiles(configuration => 
         {
             // This is where files will be served from in non-Development environments
-            configuration.RootPath = "wwwroot/dist"; 
+            configuration.RootPath = "MyApp/dist"; // In Development environments, the content of this folder will be deleted
         });
 
         // ... other code left out for brevity
     }
     ```
-3. Then in file `Startup.cs` in class `Startup` in method `` add code as follows:
+3. Then in file `Startup.cs` in method `Startup.Configure()` add code as follows:
 
     ```csharp
     public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         // ... other code left out for brevity
 
+        appBuilder.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        // ... other code left out for brevity
+
+        // Add the following after UseEndpoints()
         app.UseSpa(spa =>
         {
-            spa.Options.SourcePath = "wwwroot/src"; // <-- this must be the same path as in the previous step
+            spa.Options.SourcePath = "MyApp/src";
 
             if(env.IsDevelopment()) // "Development", not "Debug" !!
             {
@@ -68,16 +84,10 @@ The following steps assume that you have a single SPA in your project and that *
         });
 
         // ... other code left out for brevity
-
-        app.UseStaticFiles(); // <-- this line may already exist
-        app.UseSpaStaticFiles(); // <-- this line may already exist
-    
-        // ... other code left out for brevity
     }
     ```
-    **Important:** The two terminal handlers - `UseStaticFiles()` and `UseSpaStaticFiles()` - must be added to the HTTP request pipeline **after** adding `UseWebpackDevelopmentServer()`. Otherwise the terminal handlers will try handling the requests for bundles, and as a consequence the webpack development server middleware will never see those requests. As a result hot module reloading (HMR) will not work.
 
-4. Add a file `package.json` in folder `wwwroot` with the following content:
+4. Add a file `package.json` in folder `MyApp` with the following content:
 
     ```json
     {
@@ -104,6 +114,7 @@ The following steps assume that you have a single SPA in your project and that *
         "cross-env": "7.0.0",
         "html-loader": "0.5.5",
         "html-webpack-plugin": "3.2.0",
+        "react-hot-loader": "4.12.19",
         "typescript": "3.7.5",
         "webpack": "4.41.5",
         "webpack-cli": "3.3.10",
@@ -115,14 +126,13 @@ The following steps assume that you have a single SPA in your project and that *
       "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
       "dependencies": {
         "react": "16.12.0",
-        "react-dom": "16.12.0",
-        "react-hot-loader": "4.12.19"
+        "react-dom": "16.12.0"
       }
       // other content left out for brevity, please see repository for full source code
     }
     ```
 
-5. In folder `wwwroot` add a file named `webpack.config.js` with the following content:
+5. In folder `MyApp` add a file named `webpack.config.js` with the following content:
 
     ```javascript
     const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -130,6 +140,7 @@ The following steps assume that you have a single SPA in your project and that *
     const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
     module.exports = {
+        mode: isDevelopment ? 'development' : 'production',
         module: {
             rules: [
                 {
@@ -148,9 +159,6 @@ The following steps assume that you have a single SPA in your project and that *
                 }
             ]
         },
-        devServer: {
-            contentBase: './wwwroot/dist'
-        },
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx']
         }
@@ -162,13 +170,14 @@ The following steps assume that you have a single SPA in your project and that *
         plugins: [
             new CleanWebpackPlugin(),
             new HtmlWebPackPlugin({
-                template: './src/index.html',
-                filename: './index.html'
+                // HtmlWebPackPlugin configuration see https://github.com/jantimon/html-webpack-plugin#usage
+                template: './src/index.html', // template to use
+                filename: './index.html' // name to use for created file
             })
         ]
     };
     ```
-    Note: You can use a folder name other than `wwwwroot`. If you, you need to update it in multiple places including the project file (csproj) where you need to set the property `SpaRoot` to the correct value.
+    Note: You can use a folder name other than `MyApp`. If you do, you need to update it in multiple places including the project file (csproj) where you need to set the property `SpaRoot` to the correct value.
 6. Now edit your project file and add the following piece at the end of the file:
 
     ```xml
@@ -178,7 +187,7 @@ The following steps assume that you have a single SPA in your project and that *
 
       <PropertyGroup>
         <!-- This is where we set the path for the SPA files (include trailing slash to avoid having to repeat it elsewhere): -->
-        <SpaRoot>wwwroot/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
+        <SpaRoot>MyApp/</SpaRoot> <!-- <<<<<<<<<<< THIS IS IMPORTANT! Also include trailing forward slash. -->
       </PropertyGroup>
 
       <Target Name="DebugEnsureNodeEnv" BeforeTargets="PreBuildEvent" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -240,16 +249,18 @@ This repository contains a sample application named "SampleSpaWebApp". The sampl
 
 The sample application demonstrates the scenario for one single page application (SPA). We may add a sample application for multiple SPA at a later stage.
 
-**Note:** Do not confuse the sample application with the project "Web" that is included in this repository as well. "Web" is used to develop the NuGet package. Althoughh it appears very similar it should not be used as a sample project for how to use the NuGet package.
+**Note:** Do not confuse the sample application with the project "Web" that is included in this repository as well. "Web" is used to develop this NuGet package. Althoughh it appears very similar it should not be used as a sample project for how to use this NuGet package.
 
 ## Troubleshooting
 
 In case Hot Module Replacement (HMR) does not work, it can have several reasons. Typically there is only a small number of factors that need to be checked. Check and confirm these:
 
-   - Ensure the path to your SPA is set correctly in all places, i.e. `webpack.config.js`, project file, two places in class `Startup`.
+   - Ensure the path to your SPA is set correctly in all places, e.g. project file (csproj), two places in class `Startup`.
    - Ensure the project properties in the tab `Debug` have an environment variable named `ASPNETCORE_ENVIRONMENT` that is set to the value `Development`.
-   - Make sure you call `UseWebpackDeveloperServer()` **BEFORE** `UseStaticFiles()`, `UseSpaStaticFiles()` and any other terminal handlers.
+   - Place your SPA in a folder other than `wwwroot`
+   - Make sure you call `UseWebpackDeveloperServer()` **AFTER** `UseSpa()` in `Startup.Configure()`
 
+Note that this package won't work if an app is run in reverse proxy configuration. This package is based on IServerAddressesFeature which is not available if an app runs in reverse proxy configuration ([article](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio#port-configuration)). In general this should not be an issue in a development environment.
 
 ## Bug Reports and Other Suggestions for Improvement
 
@@ -270,6 +281,26 @@ Create-React-App (CRA) assumes there is a single client app. CRA also requires y
 However, there are projects that need more flexibility than CRA can offer. Furthermore, there are existing code bases where CRA is not a viable option with the deprecation of `UseWebpackDevMiddleware()`. This NuGet package - RimuTec.AspNetCore.SpaServices.Extensions - aims at providing a replacement that hopefully helps avoiding a significant amount of rework for those with existing code bases.
 
 This extensions starts on the other end. It assumes that you start with a simple HTML page and a single bundle. A "hello, world"-example for Webpack if you like. You can then add as much or as little as you wish. This packages allows you to use hot-module-reloading (HMR) for your bundle.
+
+## Separating SPA and Other Static Files
+
+**Note**: This subsection contains advanced and detailed material. This material is not required for using this nuget package. However, if you want to understand some of the more intricate problems that need to be solved, keep reading.
+
+We recommend clearly separating the SPA file from other static files. The reason lies within when and where the webpack bundles are built and how static files are configured for the request pipeline.
+
+The typical sequence for the request pipeline is that the static file handler is added via `UseStaticFiles()` before the webpack dev server is added. The webpack dev server should be the last in the pipeline as otherwise it will prevent controllers from handling requests (`UseEndpoints()` with `MapControllers()`). So, leaving aside other handlers, the best sequence is:
+  
+1. `UseStaticFiles()`
+2. `UseEndpoints()`
+3. `UseSpa()`
+
+You may have additional steps in between them. 
+
+Now, with this in place and building the webpack bundles as part of the normal project build, the static handler will find serve the webpack bundles unless the SPA files are in a folder other than then other static files. If the static handler serves the requests for the webpack bundles then the request will never be forwarded to the webpack dev server. HRM will not work. 
+
+`UseStaticFiles()` defaults to serving static files from `wwwrooot`. Placing the SPA files in a different folder and having the configuration code delete the webpack bundles in the output folder, e.g. `MyApp/dist`, will send the request to the webpack dev server as expected.
+
+The output files are deleted as otherwise upon startup, e.g. for debugging, the bundles will be served using existing files. Instead we want the webpack dev server to dynamically create the bundle if and when needed, keep them in memory and serve them from memory. This could also be achieved by refreshing the browser after the first load. However, we felt that HMR should be enabled immediately.
 
 # Advanced Scenarios
 

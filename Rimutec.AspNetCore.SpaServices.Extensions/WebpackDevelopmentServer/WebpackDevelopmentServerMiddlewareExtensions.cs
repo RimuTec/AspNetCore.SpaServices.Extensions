@@ -5,7 +5,6 @@
 // This file has been modified by Rimutec Ltd to use it for WebDevelopmentServer support in development.
 
 using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices;
 
@@ -34,7 +33,9 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
             if(string.IsNullOrEmpty(spaOptions.SourcePath))
             {
 #pragma warning disable CA1303 // Do not pass literals as localized parameters
-                throw new InvalidOperationException($"To use {nameof(UseWebpackDevelopmentServer)}, you must supply a non-empty value for the {nameof(SpaOptions.SourcePath)} property of {nameof(SpaOptions)} when calling {nameof(SpaApplicationBuilderExtensions.UseSpa)}.");
+                throw new InvalidOperationException($"To use {nameof(UseWebpackDevelopmentServer)}, " +
+                    $"you must supply a non-empty value for the {nameof(SpaOptions.SourcePath)} property of " +
+                    $"{nameof(SpaOptions)} when calling {nameof(SpaApplicationBuilderExtensions.UseSpa)}.");
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
