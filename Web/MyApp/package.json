@@ -15,21 +15,21 @@
   "author": "RimuTec Ltd.",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@babel/core": "7.8.4",
-    "@babel/preset-env": "7.8.4",
+    "@babel/core": "7.8.7",
+    "@babel/preset-env": "7.8.7",
     "@babel/preset-react": "7.8.3",
     "@babel/preset-typescript": "7.8.3",
-    "@types/react": "16.9.19",
+    "@types/react": "16.9.23",
     "@types/react-dom": "16.9.5",
     "babel-loader": "8.0.6",
     "clean-webpack-plugin": "3.0.0",
-    "cross-env": "7.0.0",
+    "cross-env": "7.0.2",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "3.2.0",
-    "react-hot-loader": "4.12.19",
-    "typescript": "3.7.5",
-    "webpack": "4.41.5",
-    "webpack-cli": "3.3.10",
+    "react-hot-loader": "4.12.20",
+    "typescript": "3.8.3",
+    "webpack": "4.42.0",
+    "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   },
   "optionalDependencies": {
@@ -37,7 +37,7 @@
   },
   "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
   "dependencies": {
-    "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "react": "16.13.0",
+    "react-dom": "16.13.0"
   }
 }
