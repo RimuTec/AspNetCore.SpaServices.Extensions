@@ -25,9 +25,9 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 
 ## Acronyms
 
-HMR = Hot Module Replacement
-SPA = Single Page Application
-WDS = Webpack Dev Server
+- HMR = Hot Module Replacement
+- SPA = Single Page Application
+- WDS = Webpack Dev Server
 
 ## Usage
 
