@@ -18,8 +18,9 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 
 ## Prerequisites
 
-- Visual Studio 2019 Community Edition, 16.4.5 or later. Other versions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
-- Nodejs 12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/))
+- Visual Studio 2019 Community Edition, 16.4.5 or later. Other versions and editions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
+- Nodejs v12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/)). You can check with ```node -v``` in a terminal.
+- npm v6.14.2 or later. Other versions may work as well but were not tested. This is installed as part of Nodejs. To check version run ```npm -v``` in a terminal. To update run ```npm i -g npm``` in a terminal.
 - .NET Core 3.1.101 or later. Other versions may work, too, but weren't tested. ([Download](https://dotnet.microsoft.com/download/dotnet-core/3.1), however, this typically comes with Visual Studio 2019 already)
 
 ## Acronyms
@@ -42,7 +43,7 @@ By putting all SPA files into a folder separate from all other static files, the
    dotnet add package Rimutec.AspNetCore.SpaServices.Extensions
    ```
 
-2. In the file `Startup.cs`, in class `Startup` add the following code to method `ConfigureServices(IServiceCollection services)`:
+2. In file `Startup.cs`, in class `Startup` add the following code to method `ConfigureServices(IServiceCollection services)`:
 
     ```csharp
     public static void ConfigureServices(IServiceCollection services)
@@ -103,30 +104,32 @@ By putting all SPA files into a folder separate from all other static files, the
       "author": "RimuTec Ltd.",
       "license": "Apache-2.0",
       "devDependencies": {
-        "@babel/core": "7.8.4",
-        "@babel/preset-env": "7.8.4",
+        "@babel/core": "7.8.7",
+        "@babel/preset-env": "7.8.7",
         "@babel/preset-react": "7.8.3",
         "@babel/preset-typescript": "7.8.3",
-        "@types/react": "16.9.19",
+        "@types/react": "16.9.23",
         "@types/react-dom": "16.9.5",
         "babel-loader": "8.0.6",
         "clean-webpack-plugin": "3.0.0",
-        "cross-env": "7.0.0",
+        "cross-env": "7.0.2",
         "html-loader": "0.5.5",
         "html-webpack-plugin": "3.2.0",
-        "react-hot-loader": "4.12.19",
-        "typescript": "3.7.5",
-        "webpack": "4.41.5",
-        "webpack-cli": "3.3.10",
+        "minimist": "1.2.5",
+        "react-hot-loader": "4.12.20",
+        "typescript": "3.8.3",
+        "webpack": "4.42.0",
+        "webpack-cli": "3.3.11",
         "webpack-dev-server": "3.10.3"
       },
+      "_comment1": "minimist@1.2.5 is listed to address vulnerability reported by Github",
       "optionalDependencies": {
         "fsevents": "1.2.9"
       },
-      "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
+      "_comment2": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
       "dependencies": {
-        "react": "16.12.0",
-        "react-dom": "16.12.0"
+        "react": "16.13.0",
+        "react-dom": "16.13.0"
       }
       // other content left out for brevity, please see repository for full source code
     }
@@ -261,6 +264,7 @@ In case Hot Module Replacement (HMR) does not work, it can have several reasons.
    - Make sure you call `UseWebpackDeveloperServer()` **AFTER** `UseSpa()` in `Startup.Configure()`
 
 Note that this package won't work if an app is run in reverse proxy configuration. This package is based on IServerAddressesFeature which is not available if an app runs in reverse proxy configuration ([article](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio#port-configuration)). In general this should not be an issue in a development environment.
+
 
 ## Bug Reports and Other Suggestions for Improvement
 
