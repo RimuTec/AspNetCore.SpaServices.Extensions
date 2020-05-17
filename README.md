@@ -8,7 +8,7 @@ Package `Microsoft.AspNetCore.SpaServices.Extensions` is recommended to be used 
 
 The problem is that the recommended replacement does not offer a direct replacement for `ISpaBuilder.UseWebpackDevMiddleware()`. This leaves developers who would like to continue using this convenient method without a suitable solution.
 
-This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension method named `ISpaBuilder.UseWebpackDevelopmentServer()` that aims at providing a replacement that minimizes required code changes.
+This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension method named `ISpaBuilder.UseWebpackDevelopmentServer()` that aims at providing a replacement with minimal code changes. A sample app also demonstrates how to enable Hot Module Replacement (HMR) with React.
 
 **Note:** This NuGet package does not offer a replacement for any other methods or packages that may have been declared deprecated. For example this NuGet package is _not_ a replacement for `Microsoft.AspNetCore.NodeServices`.
 
@@ -19,8 +19,8 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 ## Prerequisites
 
 - Visual Studio 2019 Community Edition, 16.4.5 or later. Other versions and editions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
-- Nodejs v12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/)). You can check with ```node -v``` in a terminal.
-- npm v6.14.2 or later. Other versions may work as well but were not tested. This is installed as part of Nodejs. To check version run ```npm -v``` in a terminal. To update run ```npm i -g npm``` in a terminal.
+- Nodejs v12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/)). You can check which version you have by running the command ```node -v``` in a terminal.
+- npm v6.14.2 or later. Other versions may work as well but were not tested. This is installed as part of Nodejs. To check the version you have run command ```npm -v``` in a terminal. To update to the latest version run ```npm i -g npm``` in a terminal.
 - .NET Core 3.1.101 or later. Other versions may work, too, but weren't tested. ([Download](https://dotnet.microsoft.com/download/dotnet-core/3.1), however, this typically comes with Visual Studio 2019 already)
 
 ## Acronyms
