@@ -14,7 +14,9 @@ using Microsoft.Extensions.Logging;
 using RimuTec.AspNetCore.SpaServices.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -157,13 +159,17 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 #pragma warning disable CA1303 // Do not pass literals as localized parameters
             logger.LogInformation("Deleting SPA static file root content...");
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
-            foreach (var item in spaStaticFileProvider.GetDirectoryContents(string.Empty))
+            foreach (var item in spaStaticFileProvider.GetDirectoryContents(string.Empty).ToArray())
             {
                 logger.LogInformation($"Deleting SPA static file or directory {item.PhysicalPath}");
                 Console.WriteLine($"Item: {item.PhysicalPath}");
+
+                if (!item.Exists) continue;
+
                 if (item.IsDirectory)
                 {
                     ClearFolder(item.PhysicalPath);
+                    Directory.Delete(item.PhysicalPath);
                 }
                 else
                 {
@@ -177,12 +183,14 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
         {
             var dir = new DirectoryInfo(dist);
 
-            foreach(var fi in dir.EnumerateFiles()) 
+            foreach(var fi in dir.EnumerateFiles().ToArray())
             {
+                if (!fi.Exists) continue;
                 fi.Delete();
             }
-            foreach(var di in dir.EnumerateDirectories())
+            foreach(var di in dir.EnumerateDirectories().ToArray())
             {
+                if (!di.Exists) continue;
                 ClearFolder(di.FullName);
                 di.Delete();
             }
