@@ -1,8 +1,14 @@
-﻿import { hot } from 'react-hot-loader/root'
-import * as React from 'react'
+﻿import { hot } from 'react-hot-loader/root';
+import * as React from 'react';
+import Tomatoes from './tomatoes';
 
 function App() {
-    return <h2>This is our React application. Last edit was at 1844</h2>
+    return (
+        <div>
+            <h2>This is our React application. Last edit was at 1845</h2>
+            <p><Tomatoes /></p>
+        </div>
+    )
 }
 
 export default hot(App);

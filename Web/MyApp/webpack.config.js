@@ -9,17 +9,34 @@ module.exports = {
     module: {
         rules: [
             {
+                // Documentation for babel-loader at https://webpack.js.org/loaders/babel-loader/
                 test: /\.(t|j)sx?$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
             },
             {
+                // Documentation for html-loader at https://webpack.js.org/loaders/html-loader/
                 test: /\.html$/,
                 use: [
                     {
                         loader: 'html-loader',
                         options: {
                             minimize: !isDevelopment
+                        }
+                    }
+                ]
+            },
+            // Use url-loader for images as we're on webpack 4. See comment by Carmine Tambascia 
+            // on the following answer on StackOverflow:
+            // https://stackoverflow.com/a/39999421/411428
+            {
+                // Documentation for url-loader at https://webpack.js.org/loaders/url-loader/
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: false
                         }
                     }
                 ]

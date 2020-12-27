@@ -57,6 +57,10 @@
     <None Include="$(SpaRoot)*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MyApp\src\images\" />
+  </ItemGroup>
+
   <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
     <!-- When building Debug create bundle(s) but do not minify -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
