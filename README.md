@@ -1,4 +1,4 @@
-﻿# Webpack Development Server Support for ASP.NET Core 3.1
+﻿# Webpack Development Server Support for ASP.NET Core 3.1 and ASP.NET 5.0
 
 ## Introduction
 
@@ -21,7 +21,14 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 - Visual Studio 2019 Community Edition, 16.4.5 or later. Other versions and editions may work, too, but weren't tested. ([Download](https://visualstudio.microsoft.com/downloads/))
 - Nodejs v12.13.1 or later. Other versions may work as well but were not tested. ([Download](https://nodejs.org/en/download/)). You can check which version you have by running the command ```node -v``` in a terminal.
 - npm v6.14.2 or later. Other versions may work as well but were not tested. This is installed as part of Nodejs. To check the version you have run command ```npm -v``` in a terminal. To update to the latest version run ```npm i -g npm``` in a terminal.
-- .NET Core 3.1.101 or later. Other versions may work, too, but weren't tested. ([Download](https://dotnet.microsoft.com/download/dotnet-core/3.1), however, this typically comes with Visual Studio 2019 already)
+
+The nuget package has been tested with the following target frameworks and using the npm packages listed in package.json in the sample applications in this repository.
+  - `netcoreapp3.1` (.NET Core 3.1.10)
+  - `net5.0` (.NET 5.0.1)
+
+Other target frameworks may work, too, but weren't tested.
+
+To download .NET Core 3.1 or .NET 5.0 visit [Microsoft's official web site](https://aka.ms/dotnet-download). If you are using Visual Studio 2019 version 16.8.3 or later, you typically have these target frameworks installed already.
 
 ## Acronyms
 
@@ -31,13 +38,13 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 
 ## Usage
 
-The following steps assume that you have a single SPA (Single Page Application) in your project and that *all* files for the SPA are in a folder named `MyApp` within your ASP.NET Core 3.1 project. To ensure HMR (Hot Module Reload) works, we recommend separating your SPA from other static files by using a folder other than `wwwroot`. The reason is that `UseStaticFiles()` defaults to serving static files from `wwwroot` and this interferes with webpack dev server and when and how bundles are built.
+The following steps assume that you have a single SPA (Single Page Application) in your project and that *all* files for the SPA are in a folder named `MyApp` within your ASP.NET project targeting either `netcoreapp3.1` or `net5.0`. To ensure HMR (Hot Module Reload) works, we recommend separating your SPA from other static files by using a folder other than `wwwroot`. The reason is that `UseStaticFiles()` defaults to serving static files from `wwwroot` and this interferes with webpack dev server and when and how bundles are built.
 
 By putting all SPA files into a folder separate from all other static files, the file structure is cleaner as well. Also, **be aware** that **this package deletes all files** in `spaStaticFileOptions.RootPath`. This value is configured in `Startup.ConfigureServices()`.
 
 **Note:** The following are just the key steps (one-offs) for adding support for webpack dev server (WDS) with hot module replacement (HMR) to your projects. It does not describe the full content of all files involved. The [github repository](https://github.com/RimuTec/AspNetCore.SpaServices.Extensions) for the source code of this NuGet package contains the source code for a complete example application.
 
-1. To use this extension in an ASP.NET Core 3.1 project, add the [NuGet package `RimuTec.AspNetCore.SpaServices.Extensions`](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) to the project, e.g. using the dotnet cli in a terminal window:
+1. To use this extension in an ASP.NET project targeting `netcoreapp3.1` or `net5.0`, add the [NuGet package `RimuTec.AspNetCore.SpaServices.Extensions`](https://www.nuget.org/packages/RimuTec.AspNetCore.SpaServices.Extensions/) to the project, e.g. using the dotnet cli in a terminal window:
 
    ```dotnet
    dotnet add package Rimutec.AspNetCore.SpaServices.Extensions
@@ -104,23 +111,25 @@ By putting all SPA files into a folder separate from all other static files, the
       "author": "RimuTec Ltd.",
       "license": "Apache-2.0",
       "devDependencies": {
-        "@babel/core": "7.8.7",
-        "@babel/preset-env": "7.8.7",
-        "@babel/preset-react": "7.8.3",
-        "@babel/preset-typescript": "7.8.3",
-        "@types/react": "16.9.23",
-        "@types/react-dom": "16.9.5",
-        "babel-loader": "8.0.6",
+        "@babel/core": "7.12.10",
+        "@babel/preset-env": "7.12.11",
+        "@babel/preset-react": "7.12.10",
+        "@babel/preset-typescript": "7.12.7",
+        "@types/react": "17.0.0",
+        "@types/react-dom": "17.0.0",
+        "babel-loader": "8.2.2",
         "clean-webpack-plugin": "3.0.0",
-        "cross-env": "7.0.2",
-        "html-loader": "0.5.5",
-        "html-webpack-plugin": "3.2.0",
+        "cross-env": "7.0.3",
+        "file-loader": "6.2.0",
+        "html-loader": "1.3.2",
+        "html-webpack-plugin": "4.5.0",
         "minimist": "1.2.5",
-        "react-hot-loader": "4.12.20",
-        "typescript": "3.8.3",
-        "webpack": "4.42.0",
+        "react-hot-loader": "4.13.0",
+        "typescript": "4.1.3",
+        "url-loader": "4.1.1",
+        "webpack": "4.43.0",
         "webpack-cli": "3.3.11",
-        "webpack-dev-server": "3.10.3"
+        "webpack-dev-server": "3.11.0"
       },
       "_comment1": "minimist@1.2.5 is listed to address vulnerability reported by Github",
       "optionalDependencies": {
@@ -128,8 +137,8 @@ By putting all SPA files into a folder separate from all other static files, the
       },
       "_comment2": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
       "dependencies": {
-        "react": "16.13.0",
-        "react-dom": "16.13.0"
+        "react": "17.0.1",
+        "react-dom": "17.0.1"
       }
       // other content left out for brevity, please see repository for full source code
     }
@@ -138,25 +147,46 @@ By putting all SPA files into a folder separate from all other static files, the
 5. In folder `MyApp` add a file named `webpack.config.js` with the following content:
 
     ```javascript
-    const isDevelopment = process.env.NODE_ENV !== 'production';
+    const { CleanWebpackPlugin } = require('clean-webpack-plugin');
     const HtmlWebPackPlugin = require('html-webpack-plugin');
-    const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+    const isDevelopment = process.env.NODE_ENV !== 'production';
+
+    console.log("Using NODE_ENV = " + process.env.NODE_ENV);
 
     module.exports = {
         mode: isDevelopment ? 'development' : 'production',
         module: {
             rules: [
                 {
+                    // Documentation for babel-loader at https://webpack.js.org/loaders/babel-loader/
                     test: /\.(t|j)sx?$/,
                     loader: 'babel-loader',
                     exclude: /node_modules/
                 },
                 {
+                    // Documentation for html-loader at https://webpack.js.org/loaders/html-loader/
                     test: /\.html$/,
                     use: [
                         {
                             loader: 'html-loader',
-                            options: { minimize: !isDevelopment }
+                            options: {
+                                minimize: !isDevelopment
+                            }
+                        }
+                    ]
+                },
+                // Use url-loader for images as we're on webpack 4. See comment by Carmine Tambascia 
+                // on the following answer on StackOverflow:
+                // https://stackoverflow.com/a/39999421/411428
+                {
+                    // Documentation for url-loader at https://webpack.js.org/loaders/url-loader/
+                    test: /\.(jpe?g|png|gif|svg)$/i,
+                    use: [
+                        {
+                            loader: 'url-loader',
+                            options: {
+                                limit: false
+                            }
                         }
                     ]
                 }
@@ -164,18 +194,18 @@ By putting all SPA files into a folder separate from all other static files, the
         },
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx']
-        }
-        ,mode: isDevelopment ? 'development' : 'production'
-        , output: {
-            filename: isDevelopment ? '[name].js' : '[name].[hash].js',
-            crossOriginLoading: "anonymous"
+        },
+        output: {
+            filename: isDevelopment ? '[name].js' : '[name].[hash].js'
         },
         plugins: [
-            new CleanWebpackPlugin(),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: ['./dist/*']
+            }),
             new HtmlWebPackPlugin({
                 // HtmlWebPackPlugin configuration see https://github.com/jantimon/html-webpack-plugin#usage
                 template: './src/index.html', // template to use
-                filename: './index.html' // name to use for created file
+                filename: 'index.html' // name to use for created file
             })
         ]
     };
@@ -246,13 +276,13 @@ With this in place you should be able to compile, build and debug your project. 
 
 Please be aware that it pays big times to study the full source code for this example at https://github.com/RimuTec/AspNetCore.SpaServices.Extensions.
 
-## Sample Application
+## Sample Applications
 
-This repository contains a sample application named "SampleSpaWebApp". The sample application makes use of the NuGet package and includes all code required to get WDS (webpack dev server) with hot module replacement (HMR) working.
+This repository contains two sample application, one targeting `netcoreapp3.1` named "SampleSpaWebApp-netcoreapp3.1" and one targeting `net5.0` named "SampleSpaWebApp-net5.0". The sample applications make use of the NuGet package and includes all code required to get WDS (webpack dev server) with hot module replacement (HMR) working.
 
-The sample application demonstrates the scenario for one single page application (SPA). We may add a sample application for multiple SPA at a later stage.
+The sample applications demonstrate the scenario for one single page application (SPA). We may add a sample application for multiple SPA at a later stage.
 
-**Note:** Do not confuse the sample application with the project "Web" that is included in this repository as well. "Web" is used to develop this NuGet package. Althoughh it appears very similar it should not be used as a sample project for how to use this NuGet package.
+**Note:** Do not confuse the sample application with the project "Web" that is included in this repository as well. "Web" is used to develop this NuGet package. Although it appears very similar it should not be used as a sample project for how to use this NuGet package.
 
 ## Troubleshooting
 
@@ -306,6 +336,12 @@ Now, with this in place and building the webpack bundles as part of the normal p
 
 The output files are deleted as otherwise upon startup, e.g. for debugging, the bundles will be served using existing files. Instead we want the webpack dev server to dynamically create the bundle if and when needed, keep them in memory and serve them from memory. This could also be achieved by refreshing the browser after the first load. However, we felt that HMR should be enabled immediately.
 
-# Advanced Scenarios
+# Known Issues
 
-Work in progress.
+## Option `--sockPort` Deprecated from Webpack-dev-server
+
+At the moment we are aware of one issue: webpack 5 is not supported yet. webpack 3 or 4 should work, though. This is related to the command line option `--sockPort` having been deprecated from the webpack-dev-server command line.
+
+This feature is used if requests to the webpack-dev-server ("WDS") are proxied, i.e., the request goes to a proxy which in turn then forwards it to the webpack-dev-server. In short: browser => proxy => WDS. In this scenario WDS listens on a different port than the proxy. When a resource is served by WDS it needs to then use the port the proxy port and not the port at which WDS listens.
+
+If you know how to resolve this or how to configure webpack 5 such that it injects the correct port, then please send a pull request (PR). Thank you!
