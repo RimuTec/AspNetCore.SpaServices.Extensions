@@ -1,0 +1,45 @@
+{
+  "name": "samplespawebapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "npm ci",
+    "build": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --hot --config ./webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-all": "npx -p npm-check-updates ncu -u && npm install"
+  },
+  "keywords": [],
+  "author": "RimuTec Ltd.",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@babel/core": "7.9.6",
+    "@babel/preset-env": "7.9.6",
+    "@babel/preset-react": "7.9.4",
+    "@babel/preset-typescript": "7.9.0",
+    "@types/react": "16.9.35",
+    "@types/react-dom": "16.9.8",
+    "babel-loader": "8.1.0",
+    "clean-webpack-plugin": "3.0.0",
+    "cross-env": "7.0.2",
+    "html-loader": "1.1.0",
+    "html-webpack-plugin": "4.3.0",
+    "minimist": "1.2.5",
+    "react-hot-loader": "4.12.21",
+    "typescript": "3.9.2",
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.11.0"
+  },
+  "_comment1": "minimist@1.2.5 is referenced here to address vulnerability reported by Github",
+  "optionalDependencies": {
+    "fsevents": "1.2.9"
+  },
+  "_comment2": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11, see https://github.com/fsevents/fsevents/issues/301",
+  "dependencies": {
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  }
+}

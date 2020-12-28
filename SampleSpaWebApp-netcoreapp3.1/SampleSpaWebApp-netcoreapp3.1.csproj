@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,12 +15,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="RimuTec.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
     <PackageReference Include="RimuTec.Faker" Version="1.9.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RimuTec.AspNetCore.SpaServices.Extensions\RimuTec.AspNetCore.SpaServices.Extensions.csproj" />
-  </ItemGroup>
 
   <!-- *********************************************************************************************************************************** -->
   <!-- BEGIN webpack-dev-server -->
@@ -54,10 +52,6 @@
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)src/**" />
     <None Include="$(SpaRoot)*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MyApp\src\images\" />
   </ItemGroup>
 
   <Target Name="BuildDev" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
