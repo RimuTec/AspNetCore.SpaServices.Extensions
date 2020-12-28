@@ -50,7 +50,9 @@ module.exports = {
         filename: isDevelopment ? '[name].js' : '[name].[hash].js'
     },
     plugins: [
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ['./dist/*']
+        }),
         new HtmlWebPackPlugin({
             // HtmlWebPackPlugin configuration see https://github.com/jantimon/html-webpack-plugin#usage
             template: './src/index.html', // template to use
