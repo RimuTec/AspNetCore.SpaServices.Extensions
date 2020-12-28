@@ -19,6 +19,7 @@
     "@babel/preset-env": "7.12.11",
     "@babel/preset-react": "7.12.10",
     "@babel/preset-typescript": "7.12.7",
+    "@hot-loader/react-dom": "17.0.1",
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
     "babel-loader": "8.2.2",
@@ -33,7 +34,8 @@
     "url-loader": "4.1.1",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.11.0"
+    "webpack-dev-server": "3.11.0",
+    "websocket-extensions": "0.1.4"
   },
   "_comment1": "minimist@1.2.5 is referenced here to address vulnerability reported by Github",
   "optionalDependencies": {

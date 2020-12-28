@@ -44,7 +44,10 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        alias: {
+            "react-dom": "@hot-loader/react-dom"
+        }
     },
     output: {
         filename: isDevelopment ? '[name].js' : '[name].[hash].js'

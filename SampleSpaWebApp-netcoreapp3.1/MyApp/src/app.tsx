@@ -5,7 +5,7 @@ import Tomatoes from './tomatoes';
 function App() {
     return (
         <div>
-            <h2>This is our React application. Last edit was at 1758</h2>
+            <h2>This is our React application. Last edit was at 1941</h2>
             <p><Tomatoes /></p>
         </div>
     )

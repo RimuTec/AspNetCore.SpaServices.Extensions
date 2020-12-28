@@ -130,6 +130,7 @@ By putting all SPA files into a folder separate from all other static files, the
         "webpack": "4.43.0",
         "webpack-cli": "3.3.11",
         "webpack-dev-server": "3.11.0"
+        "websocket-extensions": "0.1.4"
       },
       "_comment1": "minimist@1.2.5 is listed to address vulnerability reported by Github",
       "optionalDependencies": {
