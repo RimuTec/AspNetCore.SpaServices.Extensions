@@ -32,11 +32,13 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
                                         + "." + nameof(AspNetCore)
                                         + "." + nameof(SpaServices)
                                         + "." + nameof(WebpackDevelopmentServerMiddleware);
+
         private static TimeSpan RegexMatchTimeout = TimeSpan.FromSeconds(5); // This is a development-time only feature, so a very long timeout is fine
 
         public static void Attach(
             ISpaBuilder spaBuilder,
-            string npmScriptName)
+            string npmScriptName,
+            int? devServerPortNumber = null)
         {
             var sourcePath = spaBuilder.Options.SourcePath;
             if (string.IsNullOrEmpty(sourcePath))
@@ -81,12 +83,12 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
                     }
                 }
 
-                portTask = StartWebpackDevServerAsync(sourcePath, npmScriptName, logger, socketPortNumber);
+                portTask = StartWebpackDevServerAsync(sourcePath, npmScriptName, logger, devServerPortNumber, socketPortNumber);
                 // Everything we **proxy** is hardcoded to target http://localhost because:
                 // - the requests are always from the local machine (we're not accepting remote
                 //   requests that go directly to the webpack-dev-server)
                 // - given that, there's no reason to use https when forwarding the request to the webpack
-                //   dev server, and we couldn't even if we wanted to, because in general the webpack-dev-server 
+                //   dev server, and we couldn't even if we wanted to, because in general the webpack-dev-server
                 //   has no certificate
 #pragma warning disable CA2008 // Do not create tasks without passing a TaskScheduler
                 targetUriTask = portTask.ContinueWith(task =>
@@ -113,15 +115,15 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
         }
 
         private static async Task<int> StartWebpackDevServerAsync(
-            string sourcePath, string npmScriptName, ILogger logger, int socketPortNumber)
+            string sourcePath, string npmScriptName, ILogger logger, int? devServerPortNumber, int socketPortNumber)
         {
-            var portNumber = TcpPortFinder.FindAvailablePort();
+            var portNumber = devServerPortNumber ?? TcpPortFinder.FindAvailablePort();
             logger.LogInformation($"Starting webpack-dev-server on port {portNumber}...");
 
             // Use option "--stdin" so nodejs process with webpack-dev-server stops when the webapp stops:
             // https://webpack.js.org/configuration/dev-server/#devserverstdin---cli-only
             var arguments = $"--port {portNumber} --sockPort {socketPortNumber} --stdin";
-            var envVars = new Dictionary<string, string> {};
+            var envVars = new Dictionary<string, string> { };
             var npmScriptRunner = new NpmScriptRunner(
                 sourcePath, npmScriptName,
                 arguments,
@@ -138,7 +140,7 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
                     // as it starts listening for requests.
 #pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
                     await npmScriptRunner.StdOut.WaitForMatch(
-                        new Regex("Project is running at", 
+                        new Regex("Project is running at",
                         RegexOptions.None, RegexMatchTimeout));
 #pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
                 }
@@ -183,12 +185,12 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
         {
             var dir = new DirectoryInfo(dist);
 
-            foreach(var fi in dir.EnumerateFiles().ToArray())
+            foreach (var fi in dir.EnumerateFiles().ToArray())
             {
                 if (!fi.Exists) continue;
                 fi.Delete();
             }
-            foreach(var di in dir.EnumerateDirectories().ToArray())
+            foreach (var di in dir.EnumerateDirectories().ToArray())
             {
                 if (!di.Exists) continue;
                 ClearFolder(di.FullName);
