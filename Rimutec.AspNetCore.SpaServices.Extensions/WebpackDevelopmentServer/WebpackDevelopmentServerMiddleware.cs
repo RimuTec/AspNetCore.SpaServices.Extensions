@@ -161,6 +161,11 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 #pragma warning disable CA1303 // Do not pass literals as localized parameters
             logger.LogInformation("Deleting SPA static file root content...");
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
+
+            if (spaStaticFileProvider == null) throw new InvalidOperationException("File provider is null. " +
+                "Check if you enabled SPA static files using AddSpaStaticFiles()/UseSpaStaticFiles() and " +
+                "SPA files directory exists");
+
             foreach (var item in spaStaticFileProvider.GetDirectoryContents(string.Empty).ToArray())
             {
                 logger.LogInformation($"Deleting SPA static file or directory {item.PhysicalPath}");
