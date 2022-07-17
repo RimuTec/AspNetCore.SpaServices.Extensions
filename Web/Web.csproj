@@ -11,11 +11,11 @@
   </PropertyGroup>
  
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.1">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="RimuTec.Faker" Version="1.9.0" />
+    <PackageReference Include="RimuTec.Faker" Version="1.11.0" />
   </ItemGroup>
 
   <ItemGroup>
