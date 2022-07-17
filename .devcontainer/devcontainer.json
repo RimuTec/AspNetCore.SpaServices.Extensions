@@ -10,6 +10,7 @@
         "formulahendry.dotnet-test-explorer",
         "eamodio.gitlens",
         "editorconfig.editorconfig",
+        "github.vscode-pull-request-github",
         "josefpihrt-vscode.roslynator",
         "k--kato.docomment",
         "ms-dotnettools.csharp",
