@@ -1,0 +1,24 @@
+name: Publish Packages
+
+# Manually triggered
+# on:
+
+jobs:
+   build:
+      runs-on: ubuntu-latest
+   
+   steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET 5
+        uses: actions/setup-dotnet@v1
+        with:
+           dotnet-version: 6.0.603
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      # - name: Publish package
+      #   uses: brandedoutcast/publish-nuget@v2.5.2
+      #   with:
+      #      PROJECT_FILE_PATH: RimuTec.AspNetCore.SpaServices.Extensions/RimuTec.AspNetCore.SpaServices.Extensions.csproj
+      #      NUGET_KEY: $${{secrets.NUGET_API_KEY}}
