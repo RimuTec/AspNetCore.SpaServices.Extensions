@@ -353,5 +353,6 @@ MigrationBackup/
 .ionide/
 
 # Repository specific directives
-/Web/MyApp/dist
-/SampleSpaWebApp/MyApp/dist
+Web/MyApp/dist
+SampleSpaWebApp-net5.0/MyApp/dist
+SampleSpaWebApp-netcoreapp3.1/MyApp/dist
