@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+   spaservices:
+      container_name: spaservices
+      hostname: spaservices.local
+      build:
+         context: .
+      working_dir: /work
+      # expose ports if needed, e.g., by commenting in the following two lines
+      # and choosing suitable port numbers.
+      # ports:
+        # - 9999:4242
+      volumes:
+         - ..:/work:cached
+      # command: >
+      #    bash -c "sleep infinity"
+      command: >
+         bash -c "pwsh /work/.devcontainer/init.ps1 && sleep infinity"
+      networks:
+         # set this to one of the network names specified in 'networks:'
+         rimutec:
+
+networks:
+   # Network can be named anything. A company name is a good choice.
+   rimutec:

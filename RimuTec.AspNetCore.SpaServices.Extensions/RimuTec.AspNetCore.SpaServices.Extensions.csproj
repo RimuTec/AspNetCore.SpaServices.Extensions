@@ -1,33 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
     <PackageId>RimuTec.AspNetCore.SpaServices.Extensions</PackageId>
     <Authors>RimuTec Ltd</Authors>
     <Company>RimuTec Ltd</Company>
-    <Product>Rimutec.AspNetCore.SpaServices.Extensions</Product>
+    <Product>RimuTec.AspNetCore.SpaServices.Extensions</Product>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>2.2.0</Version>
     <RepositoryUrl>https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</RepositoryUrl>
     <Copyright>Copyright 2020 by RimuTec Ltd. All rights reserved.</Copyright>
-    <Description>Replacement for SpaBuilder.UseWebpackDevMiddleware() which is declared deprecated in ASP.NET Core 3 and has been deprecated in .NET 5.0. For usage and sample applications see https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</Description>
-    <PackageTags>netcoreapp3.1 AspNetCore SpaServices UseWebpackDevMiddleware webpack hot-module-replacement HMR react middleware webpack-dev-server net5.0</PackageTags>
+    <Description>Replacement for SpaBuilder.UseWebpackDevMiddleware() which is declared deprecated in ASP.NET Core 3 and has been deprecated in .NET 6.0. For usage and sample applications see https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</Description>
+    <PackageTags>netcoreapp3.1 AspNetCore SpaServices UseWebpackDevMiddleware webpack hot-module-replacement HMR react middleware webpack-dev-server net6.0</PackageTags>
     <PackageReleaseNotes>Detailed release notes as well as usage instructions plus a working sample ASP.NET Core 3.1 project with single page application (SPA) with React, webpack-dev-server (WDS) and Hot Module Replacement (HMR) are available at https://github.com/RimuTec/AspNetCore.SpaServices.Extensions.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RimuTec/AspNetCore.SpaServices.Extensions</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.0" />
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.27" />
   </ItemGroup>
 
   <ItemGroup>

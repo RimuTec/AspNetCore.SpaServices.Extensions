@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RimuTec.AspNetCore.SpaServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "docs", "docs\docs.csproj", "{B67B0A6C-045D-441B-8C0D-49EDFC4AAFDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSpaWebApp-net5.0", "SampleSpaWebApp-net5.0\SampleSpaWebApp-net5.0.csproj", "{C4999050-5920-4D94-B45A-1916E256904E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSpaWebApp-net6.0", "SampleSpaWebApp-net6.0\SampleSpaWebApp-net6.0.csproj", "{C4999050-5920-4D94-B45A-1916E256904E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSpaWebApp-netcoreapp3.1", "SampleSpaWebApp-netcoreapp3.1\SampleSpaWebApp-netcoreapp3.1.csproj", "{772A09E7-5F1E-42C6-B768-E50077127224}"
 EndProject

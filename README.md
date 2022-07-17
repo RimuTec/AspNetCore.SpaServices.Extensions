@@ -1,4 +1,4 @@
-﻿# Webpack Development Server Support for ASP.NET Core 3.1 and ASP.NET 5.0
+﻿# Webpack Development Server Support for ASP.NET Core 3.1 and ASP.NET 6.0
 
 ## Introduction
 
@@ -24,7 +24,7 @@ This package - `RimuTec.AspNetCore.SpaServices.Extensions` - offers an extension
 
 The nuget package has been tested with the following target frameworks and using the npm packages listed in package.json in the sample applications in this repository.
   - `netcoreapp3.1` (.NET Core 3.1.10)
-  - `net5.0` (.NET 5.0.1)
+  - `net6.0` (.NET 6.0.301)
 
 Other target frameworks may work, too, but weren't tested.
 
@@ -38,7 +38,7 @@ To download .NET Core 3.1 or .NET 5.0 visit [Microsoft's official web site](http
 
 ## Usage
 
-The following steps assume that you have a single SPA (Single Page Application) in your project and that *all* files for the SPA are in a folder named `MyApp` within your ASP.NET project targeting either `netcoreapp3.1` or `net5.0`. To ensure HMR (Hot Module Reload) works, we recommend separating your SPA from other static files by using a folder other than `wwwroot`. The reason is that `UseStaticFiles()` defaults to serving static files from `wwwroot` and this interferes with webpack dev server and when and how bundles are built.
+The following steps assume that you have a single SPA (Single Page Application) in your project and that *all* files for the SPA are in a folder named `MyApp` within your ASP.NET project targeting either `netcoreapp3.1` or `net6.0`. To ensure HMR (Hot Module Reload) works, we recommend separating your SPA from other static files by using a folder other than `wwwroot`. The reason is that `UseStaticFiles()` defaults to serving static files from `wwwroot` and this interferes with webpack dev server and when and how bundles are built.
 
 By putting all SPA files into a folder separate from all other static files, the file structure is cleaner as well. Also, **be aware** that **this package deletes all files** in `spaStaticFileOptions.RootPath`. This value is configured in `Startup.ConfigureServices()`.
 
@@ -279,7 +279,7 @@ Please be aware that it pays big times to study the full source code for this ex
 
 ## Sample Applications
 
-This repository contains two sample application, one targeting `netcoreapp3.1` named "SampleSpaWebApp-netcoreapp3.1" and one targeting `net5.0` named "SampleSpaWebApp-net5.0". The sample applications make use of the NuGet package and includes all code required to get WDS (webpack dev server) with hot module replacement (HMR) working.
+This repository contains two sample application, one targeting `netcoreapp3.1` named "SampleSpaWebApp-netcoreapp3.1" and one targeting `net6.0` named "SampleSpaWebApp-net6.0". The sample applications make use of the NuGet package and includes all code required to get WDS (webpack dev server) with hot module replacement (HMR) working.
 
 The sample applications demonstrate the scenario for one single page application (SPA). We may add a sample application for multiple SPA at a later stage.
 
@@ -346,3 +346,18 @@ At the moment we are aware of one issue: webpack 5 is not supported yet. webpack
 This feature is used if requests to the webpack-dev-server ("WDS") are proxied, i.e., the request goes to a proxy which in turn then forwards it to the webpack-dev-server. In short: browser => proxy => WDS. In this scenario WDS listens on a different port than the proxy. When a resource is served by WDS it needs to then use the port the proxy port and not the port at which WDS listens.
 
 If you know how to resolve this or how to configure webpack 5 such that it injects the correct port, then please send a pull request (PR). Thank you!
+
+# Other Points of Interest
+
+## Supported Frameworks
+
+To minimize the maintenance effort we only support .NET and .NET Core versions that are currently in support according to Microsoft's official support policy available at https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
+
+As of 17 July 2022 supported versions are:
+- .NET 6 (end of support on November 12, 2024)
+- .NET Core 3.1 (end of support on December 13, 2022)
+
+.NET 7 is expected for November 2022. We'll consider adding support at that time.
+
+All other versions, preview or out of support, are not supported by this nuget package.
+

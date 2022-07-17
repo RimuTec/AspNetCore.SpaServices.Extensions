@@ -1,0 +1,36 @@
+name: Publish Packages
+
+# Manually triggered
+on:
+   workflow_dispatch:
+      description: 'Manually triggered publication of nuget package'
+
+jobs:
+   build:
+      runs-on: ubuntu-latest
+   
+      steps:
+         - uses: actions/checkout@v3
+         - name: Setup .NET 6
+           uses: actions/setup-dotnet@v1
+           with:
+              dotnet-version: 6.0.302
+         - name: Install dependencies
+           run: dotnet restore RimuTec.AspNetCore.SpaServices.Extensions/RimuTec.AspNetCore.SpaServices.Extensions.csproj
+         - name: Build
+           run: dotnet build RimuTec.AspNetCore.SpaServices.Extensions/RimuTec.AspNetCore.SpaServices.Extensions.csproj --configuration Release --no-restore
+      # - name: Publish package
+      #   uses: brandedoutcast/publish-nuget@v2.5.2
+      #   with:
+      #      PROJECT_FILE_PATH: RimuTec.AspNetCore.SpaServices.Extensions/RimuTec.AspNetCore.SpaServices.Extensions.csproj
+      #      NUGET_KEY: $${{secrets.NUGET_API_KEY}}
+
+
+# jobs:
+
+#    build:
+
+#       runs-on: ubuntu-latest
+
+#       steps:
+#          - uses: actions/checkout@v3

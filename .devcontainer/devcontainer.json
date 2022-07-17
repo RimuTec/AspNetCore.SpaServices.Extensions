@@ -1,0 +1,22 @@
+{
+    "name": "spaservices",
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
+    "service": "spaservices",
+    "workspaceFolder": "/work",
+    "extensions": [
+        "fernandoescolar.vscode-solution-explorer",
+        "formulahendry.dotnet-test-explorer",
+        "eamodio.gitlens",
+        "editorconfig.editorconfig",
+        "josefpihrt-vscode.roslynator",
+        "k--kato.docomment",
+        "ms-dotnettools.csharp",
+        "ms-vscode.powershell",
+        "mutantdino.resourcemonitor", // show a few resource usage metrics. This can be safely removed, if you don't like it.
+        "shd101wyy.markdown-preview-enhanced"
+    ],
+    "remoteUser": "dev",
+    "shutdownAction": "stopCompose"
+}

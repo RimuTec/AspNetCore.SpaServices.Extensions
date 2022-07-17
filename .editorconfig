@@ -1,0 +1,11 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+indent_style = space
+indent_size = 3
+insert_final_newline = true
+# Do not add the following without confirming that nullable warnings and errors are still honored
+# generated_code = true
