@@ -1,7 +1,9 @@
 name: Publish Packages
 
 # Manually triggered
-# on:
+on:
+   workflow_dispatch:
+      description: 'Manually triggered publication of nuget package'
 
 jobs:
    build:
