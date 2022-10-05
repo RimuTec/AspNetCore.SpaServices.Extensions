@@ -6,7 +6,7 @@ using System.Net.Sockets;
 
 namespace RimuTec.AspNetCore.SpaServices.Extensions
 {
-    public static class TcpPortFinder
+    internal static class TcpPortFinder
     {
         public static int FindAvailablePort()
         {
