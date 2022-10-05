@@ -18,7 +18,8 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
     {
         public static void UseWebpackDevelopmentServer(
             this ISpaBuilder spaBuilder,
-            string npmScriptName
+            string npmScriptName,
+            int? devServerPortNumber = null
             )
         {
             if (spaBuilder == null)
@@ -30,7 +31,7 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 
             var spaOptions = spaBuilder.Options;
 
-            if(string.IsNullOrEmpty(spaOptions.SourcePath))
+            if (string.IsNullOrEmpty(spaOptions.SourcePath))
             {
 #pragma warning disable CA1303 // Do not pass literals as localized parameters
                 throw new InvalidOperationException($"To use {nameof(UseWebpackDevelopmentServer)}, " +
@@ -39,7 +40,7 @@ namespace RimuTec.AspNetCore.SpaServices.WebpackDevelopmentServer
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
-            WebpackDevelopmentServerMiddleware.Attach(spaBuilder, npmScriptName);
+            WebpackDevelopmentServerMiddleware.Attach(spaBuilder, npmScriptName, devServerPortNumber);
         }
     }
 }
